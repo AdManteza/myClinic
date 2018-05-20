@@ -3,6 +3,9 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "bootstrap-vue": "^2.0.0-rc.10",
+    "css-loader": "^0.28.11",
+    "style-loader": "^0.21.0",
     "vue": "^2.5.16",
     "vue-loader": "14.2.2",
     "vue-template-compiler": "^2.5.16"
