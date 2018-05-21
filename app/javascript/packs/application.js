@@ -10,18 +10,34 @@
 console.log('Hello World from Webpacker')
 
 import Vue from 'vue'
-import App from '../app.vue'
+// import App from '../app.vue'
+import Calendar from './components/calendar.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import VCalendar from 'v-calendar';
+import 'v-calendar/lib/v-calendar.min.css';
+
+console.log(VCalendar)
+
 Vue.use(BootstrapVue)
+
+Vue.use(VCalendar, {
+  formats: {
+    title: 'MMMM YYYY',
+    weekdays: 'W',
+    navMonths: 'MMM',
+    input: ['L', 'YYYY-MM-DD', 'YYYY/MM/DD'],
+    dayPopover: 'L',
+  }
+})
 
 document.addEventListener('DOMContentLoaded', () => {
   const el = document.body.appendChild(document.createElement('hello'))
   const app = new Vue({
     el,
-    render: h => h(App)
+    render: h => h(Calendar)
   })
 
   console.log(app)
