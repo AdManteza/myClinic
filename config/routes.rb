@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root 'sites#index'
+  resources :sites
+  resources :accounts
+  root 'sites#show'
 
   get 'sites/index'
   get 'sites/show'
