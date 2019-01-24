@@ -73,7 +73,8 @@ private
     params.fetch(:user).permit(
       :username,
       :firstname,
-      :lastname
+      :lastname,
+      :password
     )
   end
 end
