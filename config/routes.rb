@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :appointments
   root 'sites#index'
 
   get 'sites/index'
