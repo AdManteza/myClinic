@@ -7,10 +7,15 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'hello_vue' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container" data-behavior="vue">
+      <%= yield %>
+
+      <app :message="<%= "2testing".to_json %>"></app>
+      <form></form>
+    </div>
   </body>
 </html>
