@@ -1,0 +1,11 @@
+%p#notice= notice
+
+= @user.username
+= @user.firstname
+= @user.lastname
+
+= link_to 'Edit', edit_user_path(@user)
+= link_to 'Back', users_path
+
+- if current_user
+  = link_to 'Logout', logout_path
