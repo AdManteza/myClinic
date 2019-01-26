@@ -12,11 +12,15 @@
     - @users.each do |user|
       %tr
         %th(scope='row')= "#{user.id}"
-        %td= link_to "#{user.username}", edit_user_path(user), :target => '_blank'
+        %td= link_to "#{user.username}", user, :target => '_blank'
         %td= user.firstname
         %td= user.lastname
         %td
           = link_to user, method: :delete, data: { confirm: 'Are you sure?' } do
             %i.fa.fa-trash.fa-lg
+            Delete?
+
 %br
-= link_to 'New User', new_user_path
+= link_to new_user_path do
+  %i.fa.fa-plus.fa-lg
+  Add a new User

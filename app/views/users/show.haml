@@ -2,8 +2,11 @@
 = @user.firstname
 = @user.lastname
 
-= link_to 'Edit', edit_user_path(@user)
-= link_to 'Back', users_path
+= link_to edit_user_path(@user) do
+  %i.fa.fa-edit.fa-lg
+= link_to users_path do
+  %i.fa.fa-arrow-circle-left.fa-lg
+  Back
 
 - if current_user
   = link_to 'Logout', logout_path
