@@ -1,0 +1,10 @@
+%h1 Login
+= form_tag sessions_path do |form|
+  .field
+    = label_tag :username
+    = text_field_tag :username
+  .field
+    = label_tag :password
+    = password_field_tag :password, :autofocus => true, :autocomplete => 'email'
+  .actions
+    = submit_tag "Login"
