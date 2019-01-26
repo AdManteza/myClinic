@@ -11,7 +11,9 @@
   %body
     .container{"data-behavior" => "vue"}
       - if notice
-        %p#notice.alert.alert-success(role="alert")= notice
+        %p#notice.alert.alert-success(role='alert')= notice
+      - if alert
+        %p#alert.alert.alert-danger(role='alert')= alert
 
       = yield
       %app{":message" => "#{"2testing".to_json}"}
