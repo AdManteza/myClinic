@@ -7,12 +7,21 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+// Turbolinks
 import TurbolinksAdapter from 'vue-turbolinks'
+Vue.use(TurbolinksAdapter)
+
+// Bootstrap-Vue
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
+
+// My Components
 import Vue from 'vue/dist/vue.esm'
 import App from '../app.vue'
 import UserForm from '../user_form.vue'
 
-Vue.use(TurbolinksAdapter)
 Vue.component('app', App)
 
 document.addEventListener('turbolinks:load', () => {

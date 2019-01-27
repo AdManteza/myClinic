@@ -1,49 +1,22 @@
 <template>
   <div>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      Add User
-    </button>
+    <b-btn v-b-modal.modal1>Launch demo modal</b-btn>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New User</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Modal Component -->
+    <b-modal id="modal1" title="Bootstrap-Vue">
+      <p class="my-4">Hello from modal!</p>
+    </b-modal>
   </div>
 </template>
 
 <script>
-  // export default {
-  //   // data: {
-  //   //   modalShow: false
-  //   // }
-  //   data () {
-  //     return {
-  //       modalShow: false
-  //     }
-  //   },
-  //   // methods: {
-  //   //   // showModal: function() {
-  //   //   //   modalShow: true
-  //   //   // }
-  //   // }
-  // }
+  export default {
+    methods: {
+      createUser: function() {
+        debugger
+      }
+    }
+  }
 </script>
 
 <style scoped>
