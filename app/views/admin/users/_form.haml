@@ -1,12 +1,16 @@
 = form_with(model: [:admin, user] ,local: true) do |form|
-  = form.label :username
-  = form.text_field :username
-  = form.label :firstname
-  = form.text_field :firstname
-  = form.label :lastname
-  = form.text_field :lastname
-  = form.label :password
-  = form.password_field :password
+  %form-group
+    = form.label :username
+    = form.text_field :username, class: 'form-control', placeholder: 'Username'
+  %form-group
+    = form.label :firstname
+    = form.text_field :firstname, class: 'form-control', placeholder: 'First Name'
+  %form-group
+    = form.label :lastname
+    = form.text_field :lastname, class: 'form-control', placeholder: 'Last Name'
+  %form-group
+    = form.label :password
+    = form.password_field :password, class: 'form-control'
 
   .actions
-    = form.submit
+    = form.submit 'Save', class: 'btn btn-primary'
