@@ -5,9 +5,11 @@
 </template>
 
 <script>
-export default {
-  props: ['message']
-}
+// export default {
+//   components: {
+//     userForm
+//   }
+// }
 </script>
 
 <style scoped>

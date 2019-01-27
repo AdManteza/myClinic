@@ -10,15 +10,19 @@
 import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue/dist/vue.esm'
 import App from '../app.vue'
-import Form from '../form.vue'
+import UserForm from '../user_form.vue'
 
 Vue.use(TurbolinksAdapter)
 
 Vue.component('app', App)
-Vue.component('form', Form)
+Vue.component('user_form', UserForm)
 
 document.addEventListener('turbolinks:load', () => {
   const app = new Vue({
     el: '[data-behavior="vue"]'
+  })
+
+  const user_form = new Vue({
+    el: '[data-behavior="user_form"]'
   })
 })
