@@ -32,7 +32,11 @@ class Admin::UsersController < Admin::AdminController
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new }
+        format.html do
+          flash[:error] = @user.errors.full_messages
+
+          render :new
+        end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
