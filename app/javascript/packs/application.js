@@ -11,6 +11,9 @@
 import TurbolinksAdapter from 'vue-turbolinks'
 Vue.use(TurbolinksAdapter)
 
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
 // Bootstrap-Vue
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -25,6 +28,8 @@ import UserForm from '../user_form.vue'
 Vue.component('app', App)
 
 document.addEventListener('turbolinks:load', () => {
+  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
   const app = new Vue({
     el: '[data-behavior="vue"]',
     components: {
