@@ -7,22 +7,19 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import TurbolinksAdapter from 'vue-turbolinks';
+import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
 import App from '../app.vue'
 import UserForm from '../user_form.vue'
 
 Vue.use(TurbolinksAdapter)
-
 Vue.component('app', App)
-Vue.component('user_form', UserForm)
 
 document.addEventListener('turbolinks:load', () => {
   const app = new Vue({
-    el: '[data-behavior="vue"]'
-  })
-
-  const user_form = new Vue({
-    el: '[data-behavior="user_form"]'
+    el: '[data-behavior="vue"]',
+    components: {
+      user_form: UserForm
+    }
   })
 })
