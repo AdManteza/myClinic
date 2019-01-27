@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
-  root 'sites#index'
+  root 'sites#index' #temp for now
 
-  resources :appointments
-  resources :users
+  namespace :admin do
+    resources :appointments
+    resources :users
+  end
+
+  namespace :client do
+    resources :users, only: [:new, :show]
+  end
+
   resources :sessions, only: [:new, :create, :destroy]
 
   get 'sites/index'
