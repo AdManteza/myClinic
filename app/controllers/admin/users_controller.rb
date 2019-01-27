@@ -29,14 +29,17 @@ class Admin::UsersController < Admin::AdminController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html do
+          redirect_to admin_user_path(@user), notice: 'User was successfully created.'
+        end
+
         format.json { render :show, status: :created, location: @user }
       else
         format.html do
           flash[:error] = @user.errors.full_messages
-
           render :new
         end
+
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
