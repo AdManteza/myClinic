@@ -33,7 +33,10 @@ class Admin::UsersController < Admin::AdminController
           redirect_to admin_user_path(@user), notice: 'User was successfully created.'
         end
 
-        format.json { render :show, status: :created, location: @user }
+        format.json do
+          # todo Render a JSON object
+          @user.to_json
+        end
       else
         format.html do
           flash[:error] = @user.errors.full_messages
