@@ -1,7 +1,6 @@
 <template>
   <div>
-    <b-btn v-b-modal.userForm variant="primary">Add a new user</b-btn>
-
+    <b-btn @click="showModal" variant="primary">Add a new user</b-btn>
     <!-- Modal Component -->
     <b-modal id="userForm" ref="modal" title="New User" @ok="handleOk">
       <form @submit.stop.prevent="handleSubmit">
@@ -70,6 +69,16 @@
       }
     },
     methods: {
+      clearForm () {
+        this.username  = '',
+        this.firstname = '',
+        this.lastname  = '',
+        this.password  = ''
+      },
+      showModal () {
+        this.clearForm();
+        this.$refs.modal.show()
+      },
       handleOk (event) {
         event.preventDefault()
 
@@ -81,9 +90,13 @@
         }
 
         this.$http.post('/admin/users.json', { user: params }).then(response => {
-          console.log(response)
-          // get body data
-          this.someData = response.body;
+          this.clearForm();
+
+          this.$refs.modal.hide();
+          // debugger
+          // console.log(response)
+          // // get body data
+          // this.someData = response.body;
 
         }, response => {
           // error callback

@@ -34,8 +34,7 @@ class Admin::UsersController < Admin::AdminController
         end
 
         format.json do
-          # todo Render a JSON object
-          @user.to_json
+          render json: @user
         end
       else
         format.html do
@@ -44,7 +43,6 @@ class Admin::UsersController < Admin::AdminController
         end
 
         format.json {
-          binding.pry
           render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -88,7 +86,6 @@ private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    binding.pry
     params.fetch(:user).permit(
       :username,
       :firstname,
