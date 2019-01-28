@@ -19,15 +19,15 @@
     methods: {
       handleOk (event) {
         event.preventDefault()
-        debugger
-        params = {
+
+        var params = {
           username: 'DUH',
           firstname: 'Fname',
           lastname: 'Lname',
           password: 'pw'
         }
 
-        this.$http.post('/admin/users.json', params).then(response => {
+        this.$http.post('/admin/users.json', {}).then(response => {
           console.log(response)
           // get body data
           this.someData = response.body;

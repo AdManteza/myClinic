@@ -38,6 +38,8 @@ gem 'haml'
 gem 'bootstrap', '~> 4.2.1'
 gem 'jquery-rails'
 
+gem 'foreman'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
