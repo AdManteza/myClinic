@@ -89,19 +89,17 @@
           password: this.password
         }
 
-        this.$http.post('/admin/users.json', { user: params }).then(response => {
-          this.clearForm();
-
-          this.$refs.modal.hide();
-          // debugger
-          // console.log(response)
-          // // get body data
-          // this.someData = response.body;
-
-        }, response => {
-          // error callback
-        });
-
+        this.$http.post('/admin/users.json', { user: params })
+          .then(
+            response => {
+              this.clearForm();
+              this.$refs.modal.hide();
+            },
+            response => {
+              // error callback
+              console.log(response)
+            }
+          );
       },
       handleSubmit () {
         console.log(this);
