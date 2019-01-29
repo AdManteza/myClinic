@@ -3,7 +3,7 @@
     <b-btn @click="showModal" variant="primary">Add a new user</b-btn>
     <!-- Modal Component -->
     <b-modal id="userForm" ref="modal" title="New User" @ok="handleOk">
-      <form @submit.stop.prevent="handleSubmit">
+      <b-form @submit.stop.prevent="handleSubmit">
         <b-form-group
           horizontal
           label="Username"
@@ -39,7 +39,7 @@
         >
           <b-form-input type="password" id="password" :state="password_state" v-model="password" trim/>
         </b-form-group>
-      </form>
+      </b-form>
     </b-modal>
   </div>
 </template>
