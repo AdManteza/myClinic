@@ -11,8 +11,11 @@
 import TurbolinksAdapter from 'vue-turbolinks'
 Vue.use(TurbolinksAdapter)
 
+// Pre-fabricated Components
 import VueResource from 'vue-resource'
+import ValidationMixin from 'vuelidate'
 Vue.use(VueResource)
+Vue.use(ValidationMixin)
 
 // Bootstrap-Vue
 import BootstrapVue from 'bootstrap-vue'
