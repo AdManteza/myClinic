@@ -2,8 +2,8 @@
   <div>
     <b-btn @click="showModal" variant="primary">Add a new user</b-btn>
     <!-- Modal Component -->
-    <b-modal id="userForm" ref="modal" title="New User" @ok="handleOk">
-      <b-form @submit.stop.prevent="handleSubmit">
+    <b-modal id="userForm" ref="modal" title="New User" @cancel="clearForm" @ok="handleOk">
+      <b-form>
         <b-form-group
           horizontal
           label="Username"
@@ -100,9 +100,6 @@
               console.log(response)
             }
           );
-      },
-      handleSubmit () {
-        console.log(this);
       }
     }
   }
