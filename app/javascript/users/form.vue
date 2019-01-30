@@ -5,6 +5,7 @@
     <b-modal id="userForm"
              ref="modal"
              title="New User"
+             ok-title="Add"
              @cancel="clearForm"
              @ok="handleOk">
       <b-form>
@@ -13,7 +14,11 @@
                       label-for="username">
           <b-form-input id="username"
                         v-model.trim="user.username"
-                        :state="!$v.user.username.$invalid"/>
+                        :state="!$v.user.username.$invalid"
+                        aria-describedby="usernameLiveFeedback"/>
+          <b-form-invalid-feedback id="usernameLiveFeedback">
+            This is a required field and must be at least 4 characters
+          </b-form-invalid-feedback>
         </b-form-group>
 
         <b-form-group horizontal
@@ -21,7 +26,11 @@
                       label-for="firstname">
           <b-form-input id="firstname"
                         v-model.trim="user.firstname"
-                        :state="!$v.user.firstname.$invalid"/>
+                        :state="!$v.user.firstname.$invalid"
+                        aria-describedby="firstnameLiveFeedback"/>
+          <b-form-invalid-feedback id="firstnameLiveFeedback">
+            This is a required field
+          </b-form-invalid-feedback>
         </b-form-group>
 
         <b-form-group horizontal
@@ -29,7 +38,11 @@
                       label-for="lastname">
           <b-form-input id="lastname"
                         v-model.trim="user.lastname"
-                        :state="!$v.user.lastname.$invalid"/>
+                        :state="!$v.user.lastname.$invalid"
+                        aria-describedby="lastnameLiveFeedback"/>
+          <b-form-invalid-feedback id="lastnameLiveFeedback">
+            This is a required field
+          </b-form-invalid-feedback>
         </b-form-group>
 
         <b-form-group horizontal
@@ -38,7 +51,11 @@
           <b-form-input type="password"
                         id="password"
                         v-model.trim="user.password"
-                        :state="!$v.user.password.$invalid"/>
+                        :state="!$v.user.password.$invalid"
+                        aria-describedby="passwordLiveFeedback"/>
+          <b-form-invalid-feedback id="passwordLiveFeedback">
+            Password required
+          </b-form-invalid-feedback>
         </b-form-group>
       </b-form>
     </b-modal>
