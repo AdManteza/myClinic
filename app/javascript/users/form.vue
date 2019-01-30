@@ -6,6 +6,7 @@
              ref="modal"
              title="New User"
              ok-title="Add"
+             v-bind:ok-disabled="$v.user.$invalid"
              @cancel="clearForm"
              @ok="handleOk">
       <b-form>
