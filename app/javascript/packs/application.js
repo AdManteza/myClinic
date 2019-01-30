@@ -7,18 +7,33 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import TurbolinksAdapter from 'vue-turbolinks';
+// Vue Yo!
 import Vue from 'vue/dist/vue.esm'
-import App from '../app.vue'
-import Form from '../form.vue'
 
+// Turbolinks
+import TurbolinksAdapter from 'vue-turbolinks'
 Vue.use(TurbolinksAdapter)
 
-Vue.component('app', App)
-Vue.component('form', Form)
+// Talk to the backend
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
+// Bootstrap-Vue
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
+
+// My Components
+import UserForm from '../users/form.vue'
 
 document.addEventListener('turbolinks:load', () => {
+  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
   const app = new Vue({
-    el: '[data-behavior="vue"]'
+    el: '[data-behavior="vue"]',
+    components: {
+      user_form: UserForm
+    }
   })
 })
