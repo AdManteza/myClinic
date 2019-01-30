@@ -2,42 +2,43 @@
   <div>
     <b-btn @click="showModal" variant="primary">Add a new user</b-btn>
     <!-- Modal Component -->
-    <b-modal id="userForm" ref="modal" title="New User" @cancel="clearForm" @ok="handleOk">
+    <b-modal id="userForm"
+             ref="modal"
+             title="New User"
+             @cancel="clearForm"
+             @ok="handleOk">
       <b-form>
-        <b-form-group
-          horizontal
-          label="Username"
-          label-for="username"
-          :state="username_state"
-        >
-          <b-form-input id="username" :state="username_state" v-model="username" trim/>
+        <b-form-group horizontal
+                      label="Username"
+                      label-for="username">
+          <b-form-input id="username"
+                        v-model.trim="user.username"
+                        :state="!$v.user.username.$invalid"/>
         </b-form-group>
 
-        <b-form-group
-          horizontal
-          label="First Name"
-          label-for="firstname"
-          :state="firstname_state"
-        >
-          <b-form-input id="firstname" :state="firstname_state" v-model="firstname" trim/>
+        <b-form-group horizontal
+                      label="First Name"
+                      label-for="firstname">
+          <b-form-input id="firstname"
+                        v-model.trim="user.firstname"
+                        :state="!$v.user.firstname.$invalid"/>
         </b-form-group>
 
-        <b-form-group
-          horizontal
-          label="Last Name"
-          label-for="lastname"
-          :state="lastname_state"
-        >
-          <b-form-input id="lastname" :state="lastname_state" v-model="lastname" trim/>
+        <b-form-group horizontal
+                      label="Last Name"
+                      label-for="lastname">
+          <b-form-input id="lastname"
+                        v-model.trim="user.lastname"
+                        :state="!$v.user.lastname.$invalid"/>
         </b-form-group>
 
-        <b-form-group
-          horizontal
-          label="Password"
-          label-for="password"
-          :state="password_state"
-        >
-          <b-form-input type="password" id="password" :state="password_state" v-model="password" trim/>
+        <b-form-group horizontal
+                      label="Password"
+                      label-for="password">
+          <b-form-input type="password"
+                        id="password"
+                        v-model.trim="user.password"
+                        :state="!$v.user.password.$invalid"/>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -45,35 +46,39 @@
 </template>
 
 <script>
+  import { validationMixin } from 'vuelidate'
+  import { required, minLength } from 'vuelidate/lib/validators'
+
   export default {
     data() {
       return {
-        username: '',
-        firstname: '',
-        lastname: '',
-        password: ''
+        user: {}
       }
     },
-    computed: {
-      username_state () {
-        return this.username.length >= 4 ? true : false
-      },
-      firstname_state () {
-        return this.firstname.length >= 1 ? true : false
-      },
-      lastname_state () {
-        return this.lastname.length >= 1 ? true : false
-      },
-      password_state () {
-        return this.password.length >= 8 ? true : false
+    mixins: [validationMixin],
+    validations: {
+      user: {
+        username: {
+          required,
+          minLength: minLength(4)
+        },
+        firstname: {
+          required,
+          minLength: minLength(1)
+        },
+        lastname: {
+          required,
+          minLength: minLength(1)
+        },
+        password: {
+          required,
+          minLength: minLength(8)
+        }
       }
     },
     methods: {
       clearForm () {
-        this.username  = '',
-        this.firstname = '',
-        this.lastname  = '',
-        this.password  = ''
+        this.user = {}
       },
       showModal () {
         this.clearForm();
@@ -83,10 +88,10 @@
         event.preventDefault()
 
         var params = {
-          username: this.username,
-          firstname: this.firstname,
-          lastname: this.lastname,
-          password: this.password
+          username: this.user.username,
+          firstname: this.user.firstname,
+          lastname: this.user.lastname,
+          password: this.user.password
         }
 
         this.$http.post('/admin/users.json', { user: params })
