@@ -42,8 +42,9 @@ class Admin::UsersController < Admin::AdminController
           render :new
         end
 
-        format.json {
-          render json: @user.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @user.errors, status: :unprocessable_entity
+        end
       end
     end
   end

@@ -9,6 +9,9 @@
              v-bind:ok-disabled="$v.user.$invalid"
              @cancel="clearForm"
              @ok="handleOk">
+      <b-alert show dismissible variant="danger" v-if="saveError">
+        <p>There was a problem saving the User. Please try again. If problem persists, please contact Technical Support.</p>
+      </b-alert>
       <b-form>
         <b-form-group horizontal
                       label="Username"
@@ -70,7 +73,8 @@
   export default {
     data() {
       return {
-        user: {}
+        user: {},
+        saveError: false
       }
     },
     mixins: [validationMixin],
@@ -104,6 +108,7 @@
       },
       handleOk (event) {
         event.preventDefault()
+        this.saveError = false
 
         var params = {
           username: this.user.username,
@@ -117,10 +122,11 @@
             response => {
               this.clearForm();
               this.$refs.modal.hide();
+
+              // ToDo.. Add the newly created user to the table
             },
             response => {
-              // error callback
-              console.log(response)
+              this.saveError = true
             }
           );
       }
