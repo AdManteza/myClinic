@@ -7,11 +7,14 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+// Vue Yo!
+import Vue from 'vue/dist/vue.esm'
+
 // Turbolinks
 import TurbolinksAdapter from 'vue-turbolinks'
 Vue.use(TurbolinksAdapter)
 
-// Pre-fabricated Components
+// Talk to the backend
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
@@ -22,9 +25,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 // My Components
-import Vue from 'vue/dist/vue.esm'
 import App from '../app.vue'
-import UserForm from '../user_form.vue'
+import UserForm from '../users/form.vue'
 
 Vue.component('app', App)
 
