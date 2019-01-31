@@ -1,6 +1,6 @@
 # README
 
-An Patients Management App for clinics
+A Patients Management App for Clinics
 
 * Ruby version 2.5.1
 * Rails 5.2.0
