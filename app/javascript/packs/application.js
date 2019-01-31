@@ -25,7 +25,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 // My Components
+// Users components
 import UserForm from '../users/form.vue'
+import UserIndex from '../users/index.vue'
 
 document.addEventListener('turbolinks:load', () => {
   Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -33,7 +35,8 @@ document.addEventListener('turbolinks:load', () => {
   const app = new Vue({
     el: '[data-behavior="vue"]',
     components: {
-      user_form: UserForm
+      user_form : UserForm,
+      user_index: UserIndex
     }
   })
 })
