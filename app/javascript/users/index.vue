@@ -1,5 +1,5 @@
 <template>
-  <b-table striped hover :busy.sync="isBusy" :fields="fields" :items="getUsers"></b-table>
+  <b-table id="users-table" striped hover :busy.sync="isBusy" :fields="fields" :items="getUsers"></b-table>
 </template>
 
 <script>
@@ -15,6 +15,9 @@
         isBusy: false
       }
     },
+    created() {
+      this.$eventHub.$on('new-user-added', this.refreshTable)
+    },
     methods: {
       getUsers () {
         let promise = this.$http.get('/admin/users.json')
@@ -29,6 +32,9 @@
 
           return []
         })
+      },
+      refreshTable () {
+        this.$root.$emit('bv::refresh::table', 'users-table')
       }
     }
   }

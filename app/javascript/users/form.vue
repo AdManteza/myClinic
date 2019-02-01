@@ -123,7 +123,7 @@
           this.clearForm()
           this.$refs.modal.hide()
 
-          // ToDo.. Add the newly created user to the table
+          this.$eventHub.$emit('new-user-added')
         }).catch(error => {
           this.saveError = true
         })

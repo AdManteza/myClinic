@@ -25,9 +25,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 // My Components
-// Users components
+// ..Users components
 import UserForm from '../users/form.vue'
 import UserIndex from '../users/index.vue'
+
+// Global events
+Vue.prototype.$eventHub = new Vue()
 
 document.addEventListener('turbolinks:load', () => {
   Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
