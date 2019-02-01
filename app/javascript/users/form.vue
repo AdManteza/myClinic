@@ -71,13 +71,13 @@
   import { required, minLength } from 'vuelidate/lib/validators'
 
   export default {
-    data() {
+    data () {
       return {
         user: {},
         saveError: false
       }
     },
-    mixins: [validationMixin],
+    mixins: [ validationMixin ],
     validations: {
       user: {
         username: {

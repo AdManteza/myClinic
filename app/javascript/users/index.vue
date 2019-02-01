@@ -3,6 +3,7 @@
     <b-table id="users-table"
              show-empty
              striped
+             responsive
              no-provider-paging
              :busy.sync="isBusy"
              :fields="fields"
@@ -36,8 +37,11 @@
         isBusy: false
       }
     },
-    created() {
+    created () {
       this.$eventHub.$on('new-user-added', this.refreshTable)
+    },
+    beforeDestroy () {
+      this.$eventHub.$off('new-user-added');
     },
     methods: {
       getUsers () {
