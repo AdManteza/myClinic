@@ -16,7 +16,7 @@
       }
     },
     methods: {
-      getUsers (ctx) {
+      getUsers () {
         let promise = this.$http.get('/admin/users.json')
 
         return promise.then((data) => {
