@@ -3,8 +3,13 @@
     <b-table id="users-table"
              show-empty
              striped
+             bordered
              responsive
              no-provider-paging
+             no-provider-sorting
+             hover
+             :sort-by.sync="sortBy"
+             :sort-desc.sync="sortDesc"
              :busy.sync="isBusy"
              :fields="fields"
              :items="users"
@@ -24,11 +29,14 @@
     data () {
       return {
         users: this.getUsers,
+        sortBy: 'id',
+        sortDesc: true,
         fields: [
-          { key: 'id', label: 'User ID' },
-          { key: 'username', label: 'Username' },
-          { key: 'firstname', label: 'First Name' },
-          { key: 'lastname', label: 'Last Name' }
+          { key: 'id', label: 'User ID', sortable: true },
+          { key: 'username', label: 'Username', sortable: true },
+          { key: 'firstname', label: 'First Name', sortable: true },
+          { key: 'lastname', label: 'Last Name', sortable: true },
+          { key: 'actions', label: 'Actions', sortable: false }
         ],
         currentPage: 1,
         totalRows: 0,
