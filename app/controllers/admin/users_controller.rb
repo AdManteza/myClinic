@@ -7,10 +7,7 @@ class Admin::UsersController < Admin::AdminController
   def index
     respond_to do |format|
       format.html do; end
-
-      format.json do
-        render json: @users
-      end
+      format.json { render json: @users }
     end
   end
 
