@@ -19,21 +19,25 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
 // Bootstrap-Vue
-import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 // My Components
+// ..Users components
 import UserForm from '../users/form.vue'
+import UserIndex from '../users/index.vue'
+Vue.component('user_form', UserForm)
+Vue.component('user_index', UserIndex)
+
+// Global events
+Vue.prototype.$eventHub = new Vue()
 
 document.addEventListener('turbolinks:load', () => {
   Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
   const app = new Vue({
-    el: '[data-behavior="vue"]',
-    components: {
-      user_form: UserForm
-    }
+    el: '[data-behavior="vue"]'
   })
 })

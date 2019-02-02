@@ -1,10 +1,14 @@
 class Admin::UsersController < Admin::AdminController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :users, only: [:index]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    respond_to do |format|
+      format.html do; end
+      format.json { render json: @users }
+    end
   end
 
   # GET /users/1
@@ -83,6 +87,10 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def users
+    @users = User.all
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

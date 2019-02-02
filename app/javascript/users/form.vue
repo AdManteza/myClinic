@@ -71,13 +71,13 @@
   import { required, minLength } from 'vuelidate/lib/validators'
 
   export default {
-    data() {
+    data () {
       return {
         user: {},
         saveError: false
       }
     },
-    mixins: [validationMixin],
+    mixins: [ validationMixin ],
     validations: {
       user: {
         username: {
@@ -110,25 +110,23 @@
         event.preventDefault()
         this.saveError = false
 
-        var params = {
+        const params = {
           username: this.user.username,
           firstname: this.user.firstname,
           lastname: this.user.lastname,
           password: this.user.password
         }
 
-        this.$http.post('/admin/users.json', { user: params })
-          .then(
-            response => {
-              this.clearForm();
-              this.$refs.modal.hide();
+        let promise = this.$http.post('/admin/users.json', { user: params })
 
-              // ToDo.. Add the newly created user to the table
-            },
-            response => {
-              this.saveError = true
-            }
-          );
+        return promise.then((data) => {
+          this.clearForm()
+          this.$refs.modal.hide()
+
+          this.$eventHub.$emit('new-user-added')
+        }).catch(error => {
+          this.saveError = true
+        })
       }
     }
   }
