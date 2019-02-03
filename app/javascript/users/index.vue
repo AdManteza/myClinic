@@ -15,6 +15,14 @@
              :items="users"
              :current-page="currentPage"
              :per-page="perPage">
+      <template slot="actions" slot-scope="row">
+        <b-button size="sm" variant="secondary">
+          User Info
+        </b-button>
+        <b-button size="sm" variant="danger" >
+          Remove?
+        </b-button>
+      </template>
     </b-table>
     <b-row>
       <b-col md="6">
