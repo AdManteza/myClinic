@@ -25,9 +25,9 @@
              :current-page="currentPage"
              :per-page="perPage">
       <template slot="actions" slot-scope="row" >
-        <b-button size="sm" variant="secondary" class="mr-1">
+        <!-- <b-button size="sm" variant="secondary" class="mr-1">
           User Info
-        </b-button>
+        </b-button> -->
         <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index, $event.target)">
           Remove?
         </b-button>
