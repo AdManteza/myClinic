@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'sites#index' #temp for now
+  root 'client/sites#show' #temp for now
 
   namespace :admin do
     resources :appointments
@@ -8,12 +8,13 @@ Rails.application.routes.draw do
 
   namespace :client do
     resources :users, only: [:new, :show]
+    resources :sites
   end
 
   resources :sessions, only: [:new, :create, :destroy]
 
-  get 'sites/index'
-  get 'sites/show'
+  # get 'sites/index'
+  # get 'sites/show'
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
