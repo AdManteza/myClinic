@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'client/sites#show' #temp for now
+  root 'client/sites#show'
 
   namespace :admin do
     resources :appointments
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   # get 'sites/index'
   # get 'sites/show'
-  get 'signup', to: 'users#new', as: 'signup'
+  get 'signup', to: 'client/users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
