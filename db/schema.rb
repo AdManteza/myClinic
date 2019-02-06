@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_24_031325) do
+ActiveRecord::Schema.define(version: 2019_02_06_020949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admin_users", force: :cascade do |t|
+    t.bigint "site_id"
+    t.string "username"
+    t.string "firstname"
+    t.string "lastname"
+    t.string "password_digest"
+    t.boolean "super", default: false
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["site_id"], name: "index_admin_users_on_site_id"
+  end
 
   create_table "appointments", force: :cascade do |t|
     t.bigint "user_id"
@@ -23,6 +36,14 @@ ActiveRecord::Schema.define(version: 2019_01_24_031325) do
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
 
+  create_table "sites", force: :cascade do |t|
+    t.string "name"
+    t.string "domain"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "firstname"
@@ -30,6 +51,9 @@ ActiveRecord::Schema.define(version: 2019_01_24_031325) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_users_on_site_id"
   end
 
+  add_foreign_key "users", "sites"
 end
