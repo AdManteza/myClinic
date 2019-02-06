@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # each client will have a different homepage
   root 'client/sites#show'
 
   namespace :admin do
