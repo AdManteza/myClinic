@@ -1,5 +1,5 @@
--# this would be mapped to the Site name in the future
-- if @current_site == 'localhost'
-  = render 'client/sites/homepages/localhost'
+- if @homepage.nil?
+  -# TO DO. render some kind of a default fallback page here
+  = render 'NO HOMEPAGE FOR YA'
 - else
-  = render 'client/sites/homepages/zero_dot_zero'
+  = render "client/sites/homepages/#{@homepage}"
