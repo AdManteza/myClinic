@@ -10,7 +10,7 @@
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body
-    .container(data-behavior='vue')
+    %div(data-behavior='vue')
       = render 'layouts/navbar'
       = render 'layouts/application_flash', notice: notice, alert: alert
       = yield
