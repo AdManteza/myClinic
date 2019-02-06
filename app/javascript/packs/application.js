@@ -25,6 +25,10 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 // My Components
+// Common components
+import LoginForm from '../common/login_form.vue'
+Vue.component('login_form', LoginForm)
+
 // ..Users components
 import UserForm from '../users/form.vue'
 import UserIndex from '../users/index.vue'

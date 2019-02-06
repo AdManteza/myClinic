@@ -3,16 +3,16 @@ Rails.application.routes.draw do
   root 'client/sites#show'
 
   namespace :admin do
+    resources :sessions, only: [:new, :create, :destroy]
     resources :appointments
     resources :users
   end
 
   namespace :client do
+    resources :sessions, only: [:new, :create, :destroy]
     resources :users, only: [:new, :show]
     resources :sites
   end
-
-  resources :sessions, only: [:new, :create, :destroy]
 
   # get 'sites/index'
   # get 'sites/show'

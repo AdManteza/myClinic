@@ -11,10 +11,6 @@
 
   %body
     .container(data-behavior='vue')
+      = render 'layouts/navbar'
       = render 'layouts/application_flash', notice: notice, alert: alert
-
       = yield
-
-      -# %app{":message" => "#{"2testing".to_json}"}
-
-      %form
