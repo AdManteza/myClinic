@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button variant="outline-warning">
+    <b-button size="sm" variant="outline-warning">
       Admin Login
     </b-button>
   </div>

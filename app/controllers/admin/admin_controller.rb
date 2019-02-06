@@ -6,7 +6,9 @@ private
   def ensure_admin_only
     return if current_user.is_a?(AdminUser)
 
-    redirect_to root_url, notice: "Unauthorized!"
+    flash[:error] = ["Unauthorized!"]
+
+    redirect_to root_url
   end
 
   def current_user
