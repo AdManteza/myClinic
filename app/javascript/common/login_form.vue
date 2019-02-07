@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-btn @click="showModal" size="sm" variant="outline-warning">{{ login_status }}</b-btn>
+    <b-btn @click="showModal" size="sm" variant="outline-warning">{{ currentUser ? "Logout " + currentUser : 'Admin Login' }}</b-btn>
 
     <!-- Modal Component -->
     <b-modal id="loginForm"
@@ -10,7 +10,7 @@
              @cancel="clearForm"
              @ok="handleOk">
       <b-alert show dismissible variant="danger" v-if="loginError">
-        <p>There was a problem saving the User. Please try again. If problem persists, please contact Technical Support.</p>
+        <p>Sorry. Invalid Password or Username</p>
       </b-alert>
       <b-form>
         <b-form-group horizontal
@@ -48,10 +48,10 @@
     data () {
       return {
         admin_user: {},
-        login_status: 'Admin Login',
         loginError: false
       }
     },
+    props: ['currentUser'],
     mixins: [ validationMixin ],
     validations: {
       admin_user: {
@@ -69,7 +69,17 @@
       },
       showModal () {
         this.clearForm();
-        this.$refs.modal.show()
+
+        if (this.currentUser) {
+          let promise = this.$http.get('/admin_logout.json')
+
+          return promise.then((data) => {
+            window.location.href = data.body.location
+          })
+
+        } else {
+          this.$refs.modal.show()
+        }
       },
       handleOk (event) {
         event.preventDefault()
@@ -80,10 +90,9 @@
           password: this.admin_user.password
         }
 
-        let promise = this.$http.post('/admin/sessions.json', { admin_user_session: params })
+        let promise = this.$http.post('/admin_login.json', { admin_user_session: params })
 
         return promise.then((data) => {
-          this.login_status = 'Admin Logout'
           window.location.href = data.body.location
         }).catch(error => {
           this.loginError = true

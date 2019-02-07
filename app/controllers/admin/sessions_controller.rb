@@ -1,5 +1,5 @@
 class Admin::SessionsController < SessionsController
-  before_action :admin_user
+  before_action :admin_user, only: [:create]
 
   def create
     respond_to do |format|
@@ -17,8 +17,9 @@ class Admin::SessionsController < SessionsController
 
   def destroy
     session[:admin_user_id] = nil
+    @current_user = nil
 
-    redirect_to root_url, notice: "Logged out!"
+    render json: { location: root_url }
   end
 
 private

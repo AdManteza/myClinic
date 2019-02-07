@@ -3,23 +3,20 @@ Rails.application.routes.draw do
   root 'client/sites#show'
 
   namespace :admin do
-    resources :sessions, only: [:new, :create, :destroy]
+    resources :sessions, only: [:create, :destroy]
     resources :appointments
     resources :users
   end
 
   namespace :client do
-    resources :sessions, only: [:new, :create, :destroy]
+    resources :sessions, only: [:create, :destroy]
     resources :users, only: [:new, :show]
     resources :sites
   end
 
-  # post 'admin_login', to: 'admin/sessions#create', as: 'admin_login'
+  get 'admin_logout', to: 'admin/sessions#destroy', as: 'admin_logout'
+  post 'admin_login', to: 'admin/sessions#create', as: 'admin_login'
+  get 'user_signup', to: 'client/users#new', as: 'user_signup'
 
-  # get 'sites/index'
-  # get 'sites/show'
-  # get 'signup', to: 'client/users#new', as: 'signup'
-  # get 'login', to: 'sessions#new', as: 'login'
-  # get 'logout', to: 'sessions#destroy', as: 'logout'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
