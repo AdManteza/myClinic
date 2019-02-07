@@ -2,7 +2,7 @@
 %nav(class="navbar fixed-top bg-dark navbar-dark")
   .container-fluid
     .navbar-header
-      %div(class="navbar-brand")= @site_name
+      %div(class="navbar-brand")= "#{@current_site ? @current_site.name : ''}"
     %ul(class="navbar-nav ml-auto pr-3")
       %li(class="nav-item")
         %login_form(current-user="#{@current_user ? @current_user.username : ''}")
