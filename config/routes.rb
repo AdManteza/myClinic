@@ -14,10 +14,12 @@ Rails.application.routes.draw do
     resources :sites
   end
 
+  # post 'admin_login', to: 'admin/sessions#create', as: 'admin_login'
+
   # get 'sites/index'
   # get 'sites/show'
-  get 'signup', to: 'client/users#new', as: 'signup'
-  get 'login', to: 'sessions#new', as: 'login'
-  get 'logout', to: 'sessions#destroy', as: 'logout'
+  # get 'signup', to: 'client/users#new', as: 'signup'
+  # get 'login', to: 'sessions#new', as: 'login'
+  # get 'logout', to: 'sessions#destroy', as: 'logout'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

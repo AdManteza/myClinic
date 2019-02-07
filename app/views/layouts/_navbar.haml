@@ -4,5 +4,7 @@
     .navbar-header
       %div(class="navbar-brand")= @site_name
     %ul(class="navbar-nav ml-auto pr-3")
+      - if @current_user
+        %li(class="nav-item")= @current_user.username
       %li(class="nav-item")
         %login_form
