@@ -12,6 +12,6 @@
   %body
     %div(data-behavior='vue')
       = render 'layouts/navbar'
-      .main(style="margin-top: 55px;")
+      .main
         = render 'layouts/application_flash', notice: notice, alert: alert
         = yield
