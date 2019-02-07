@@ -6,9 +6,7 @@ private
   def ensure_admin_only
     return if current_user.is_a?(AdminUser)
 
-    flash[:error] = ['Unauthorized! You need to login first as a site administrator']
-
-    redirect_to root_url
+    redirect_to root_url, alert: 'Unauthorized! You need to login first as a site administrator'
   end
 
   def current_user

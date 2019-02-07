@@ -1,9 +1,9 @@
 - if notice
-  %p#notice.alert.alert-success(role='alert')= notice
+  %b-alert(dismissible show fade variant="success")= notice
 
 - if alert
-  %p#alert.alert.alert-danger(role='alert')= alert
+  %b-alert(dismissible show fade variant="danger")= alert
 
 - if flash[:error].present?
   - flash[:error].each do |message|
-    %p#alert.alert.alert-danger(role='alert')= message
+    %b-alert(dismissible show fade variant="danger")= message
