@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::AdminController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :user, only: [:show, :edit, :update, :destroy]
   before_action :users, only: [:index]
 
   # GET /users
@@ -11,25 +11,10 @@ class Admin::UsersController < Admin::AdminController
     end
   end
 
-  # GET /users/1
-  # GET /users/1.json
-  def show
-    @user = User.find(params[:id])
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
-  end
-
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    @user = current_site.users.build(user_params)
 
     respond_to do |format|
       if @user.save
@@ -84,13 +69,12 @@ class Admin::UsersController < Admin::AdminController
 
 private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    @user = User.find(params[:id])
+  def user
+    @user ||= current_site.users.where(id: params[:id]).first
   end
 
   def users
-    @users = User.all
+    @users ||= current_site.users
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

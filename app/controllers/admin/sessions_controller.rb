@@ -7,9 +7,9 @@ class Admin::SessionsController < SessionsController
         if admin_user && admin_user.authenticate(admin_session_params[:password])
           session[:admin_user_id] = admin_user.id
 
-          render json: { location: admin_users_path, username: admin_user.username }
+          render json: { location: admin_dashboard_path, username: admin_user.username }
         else
-          render json: { status: :unprocessable_entity }
+          render status: 401, json: { message: 'unauthorized' }
         end
       end
     end

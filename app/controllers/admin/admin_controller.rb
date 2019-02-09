@@ -1,6 +1,10 @@
 class Admin::AdminController < ApplicationController
   before_action :current_user, :ensure_admin_only
 
+  def dashboard
+    render 'admin/dashboard'
+  end
+
 private
 
   def ensure_admin_only

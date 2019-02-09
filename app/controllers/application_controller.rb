@@ -1,10 +1,17 @@
 class ApplicationController < ActionController::Base
   before_action :current_site
+  helper_method :admin_user?
 
   class NoSiteFound < StandardError
   end
 
 private
+
+  def admin_user?
+    return false unless @current_user
+
+    @current_user.is_a?(AdminUser)
+  end
 
   def current_site
     # ToDo. build a SiteFinder service to
