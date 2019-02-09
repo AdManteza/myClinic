@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   namespace :client do
     resources :sessions, only: [:create, :destroy]
     resources :users, only: [:new, :show]
-    resources :sites
+    resources :sites, only: [:show]
   end
 
   get 'admin_logout', to: 'admin/sessions#destroy', as: 'admin_logout'
