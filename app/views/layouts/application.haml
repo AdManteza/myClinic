@@ -10,11 +10,9 @@
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body
-    .container(data-behavior='vue')
-      = render 'layouts/application_flash', notice: notice, alert: alert
-
-      = yield
-
-      -# %app{":message" => "#{"2testing".to_json}"}
-
-      %form
+    %div(data-behavior='vue')
+      = render 'layouts/navbar'
+      %br
+      .main
+        = render 'layouts/application_flash', notice: notice, alert: alert
+        = yield
