@@ -29,6 +29,10 @@ Vue.use(BootstrapVue)
 import LoginForm from '../common/login_form.vue'
 Vue.component('login_form', LoginForm)
 
+// ..Application components
+import AdminNavBar from '../application/admin_navbar.vue'
+Vue.component('admin_navbar', AdminNavBar)
+
 // ..Users components
 import UserForm from '../users/form.vue'
 import UserIndex from '../users/index.vue'
