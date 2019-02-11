@@ -13,11 +13,6 @@
 </template>
 <script>
   export default {
-    data () {
-      return {
-        currentPage: '/admin_dashboard'
-      }
-    },
     props: ['currentPage']
   }
 </script>

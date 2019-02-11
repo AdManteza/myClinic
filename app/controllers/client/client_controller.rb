@@ -7,6 +7,8 @@ private
     @current_user ||= begin
       if session[:user_id]
         User.find(session[:user_id])
+      elsif session[:admin_user_id]
+        AdminUser.find(session[:admin_user_id])
       else
         nil
       end
