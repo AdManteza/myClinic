@@ -8,6 +8,7 @@ private
       if session[:user_id]
         User.find(session[:user_id])
       elsif session[:admin_user_id]
+        # it could also be an Admin
         AdminUser.find(session[:admin_user_id])
       else
         nil
