@@ -13,6 +13,7 @@ class Admin::UsersController < Admin::AdminController
 
   def create
     @user = current_site.users.build(user_params)
+    @user.password = PasswordStrategy.random if user_params[:password].blank?
 
     respond_to do |format|
       if @user.save
@@ -77,7 +78,9 @@ private
       :username,
       :firstname,
       :lastname,
-      :password
+      :password,
+      :contact_number,
+      :email_address
     )
   end
 end

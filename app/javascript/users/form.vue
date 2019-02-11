@@ -50,16 +50,30 @@
         </b-form-group>
 
         <b-form-group horizontal
+                      label="Contact#"
+                      label-for="contact_number">
+          <b-form-input type="tel"
+                        id="contact_number"
+                        v-model.trim="user.contact_number"
+                        placeholder="Optional"/>
+        </b-form-group>
+
+        <b-form-group horizontal
+                      label="Email"
+                      label-for="email_address">
+          <b-form-input type="email"
+                        id="email_address"
+                        v-model.trim="user.email_address"
+                        placeholder="Optional"/>
+        </b-form-group>
+
+        <b-form-group horizontal
                       label="Password"
                       label-for="password">
           <b-form-input type="password"
                         id="password"
                         v-model.trim="user.password"
-                        :state="!$v.user.password.$invalid"
-                        aria-describedby="passwordLiveFeedback"/>
-          <b-form-invalid-feedback id="passwordLiveFeedback">
-            Password required
-          </b-form-invalid-feedback>
+                        placeholder="This is only optional for Administrators"/>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -91,10 +105,6 @@
         lastname: {
           required,
           minLength: minLength(1)
-        },
-        password: {
-          required,
-          minLength: minLength(8)
         }
       }
     },
@@ -114,7 +124,9 @@
           username: this.user.username,
           firstname: this.user.firstname,
           lastname: this.user.lastname,
-          password: this.user.password
+          password: this.user.password,
+          contact_number: this.user.contact_number,
+          email_address: this.user.email_address,
         }
 
         let promise = this.$http.post('/admin/users.json', { user: params })
