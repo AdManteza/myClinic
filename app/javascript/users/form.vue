@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-btn @click="showModal" variant="primary">Add a new user</b-btn>
+    <b-btn @click="showModal" v-bind:variant="buttonVariant">Add a new user</b-btn>
     <!-- Modal Component -->
     <b-modal id="userForm"
              ref="modal"
@@ -91,6 +91,7 @@
         saveError: false
       }
     },
+    props: ['buttonVariant'],
     mixins: [ validationMixin ],
     validations: {
       user: {

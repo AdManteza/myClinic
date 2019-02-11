@@ -25,7 +25,10 @@
              :current-page="currentPage"
              :per-page="perPage">
       <template slot="actions" slot-scope="row" >
-        <b-button size="sm" variant="secondary" class="mr-1">
+        <b-button size="sm" variant="secondary" @click.stop="editUser(row.item)" class="mr-1">
+          Edit
+        </b-button>
+        <b-button size="sm" variant="success" @click.stop="createAppointment(row.item)" class="mr-1">
           Book an Appointment
         </b-button>
         <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index, $event.target)">
@@ -73,6 +76,12 @@
       this.$eventHub.$off('new-user-added');
     },
     methods: {
+      createAppointment (user) {
+        console.log(user.username)
+      },
+      editUser (user) {
+        alert('Coming Soon!')
+      },
       getUsers () {
         let promise = this.$http.get('/admin/users.json')
 

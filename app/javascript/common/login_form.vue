@@ -16,7 +16,7 @@
         <b-form-group horizontal
                       label="Username"
                       label-for="username">
-          <b-form-input id="username"
+          <b-form-input id="admin-username"
                         v-model.trim="admin_user.username"
                         :state="!$v.admin_user.username.$invalid"
                         aria-describedby="usernameLiveFeedback"/>
@@ -28,7 +28,7 @@
                       label="Password"
                       label-for="password">
           <b-form-input type="password"
-                        id="password"
+                        id="admin-password"
                         v-model.trim="admin_user.password"
                         :state="!$v.admin_user.password.$invalid"
                         aria-describedby="passwordLiveFeedback"/>
