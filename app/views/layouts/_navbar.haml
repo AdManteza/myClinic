@@ -1,13 +1,15 @@
 / Navigation
 %nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
   .navbar-collapse.collapse.w-100.order-1.order-md-0.dual-collapse2
-    %ul.navbar-nav.mr-auto
-      - if admin_user?
-        %admin_navbar(current-page="#{request.path}")
-      - elsif @current_user.present?
+    - if admin_user?
+      %admin_navbar(current-page="#{request.path}")
+    
+    - elsif @current_user.present?
+      %ul.navbar-nav.mr-auto
         %li.nav-item.active
           = link_to 'My Profile', client_user_path, class: 'nav-link'
-      - else
+    - else
+      %ul.navbar-nav.mr-auto
         %li.nav-item.active
           = link_to 'Sign Up', user_signup_path, class: 'nav-link'
   .mx-auto.order-0
