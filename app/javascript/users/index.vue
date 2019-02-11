@@ -25,9 +25,9 @@
              :current-page="currentPage"
              :per-page="perPage">
       <template slot="actions" slot-scope="row" >
-        <!-- <b-button size="sm" variant="secondary" class="mr-1">
-          User Info
-        </b-button> -->
+        <b-button size="sm" variant="secondary" class="mr-1">
+          Book an Appointment
+        </b-button>
         <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index, $event.target)">
           Remove?
         </b-button>
@@ -49,10 +49,12 @@
         sortBy: 'id',
         sortDesc: true,
         fields: [
-          { key: 'id', label: 'User ID', sortable: true },
+          { key: 'id', label: 'ID', sortable: true },
           { key: 'username', label: 'Username', sortable: true },
           { key: 'firstname', label: 'First Name', sortable: true },
           { key: 'lastname', label: 'Last Name', sortable: true },
+          { key: 'contact_number', label: 'Contact Number', sortable: true },
+          { key: 'email_address', label: 'Email', sortable: true },
           { key: 'actions', label: 'Actions', sortable: false }
         ],
         currentPage: 1,

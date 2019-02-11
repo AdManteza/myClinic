@@ -11,8 +11,6 @@ class Admin::UsersController < Admin::AdminController
     end
   end
 
-  # POST /users
-  # POST /users.json
   def create
     @user = current_site.users.build(user_params)
 
@@ -38,8 +36,6 @@ class Admin::UsersController < Admin::AdminController
     end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -54,8 +50,6 @@ class Admin::UsersController < Admin::AdminController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     @user.destroy
     respond_to do |format|
