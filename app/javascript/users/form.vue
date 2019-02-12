@@ -113,6 +113,30 @@
       clearForm () {
         this.user = {}
       },
+      closeForm () {
+        this.$root.$emit('bv::hide::modal','userForm')
+      },
+      handleNewUser (params) {
+        let promise = this.$http.post('/admin/users.json', { user: params })
+
+        return promise.then((data) => {
+          this.clearForm()
+          this.closeForm()
+          this.$eventHub.$emit('new-user-added')
+        }).catch(error => {
+          this.saveError = true
+        })
+      },
+      handleUpdateUser (params) {
+        let promise = this.$http.put(`/admin/users/${this.userToEdit.id}.json`, { user: params })
+
+        return promise.then((data) => {
+          this.clearForm()
+          this.closeForm()
+        }).catch(error => {
+          this.saveError = true
+        })
+      },
       handleOk (event) {
         event.preventDefault()
         this.saveError = false
@@ -127,20 +151,10 @@
         }
 
         if (this.userToEdit) {
-          let url = this.$http.put(`/admin/users/${this.userToEdit.id}.json`, { user: params })
+          this.handleUpdateUser(params)
         } else {
-          let url = this.$http.post('/admin/users.json', { user: params })
+          this.handleNewUser(params)
         }
-
-        let promise = this.$http.put(`/admin/users/${this.userToEdit.id}.json`, { user: params })
-
-        return promise.then((data) => {
-          this.clearForm()
-          this.$root.$emit('bv::hide::modal','userForm')
-          this.$eventHub.$emit('new-user-added')
-        }).catch(error => {
-          this.saveError = true
-        })
       }
     }
   }
