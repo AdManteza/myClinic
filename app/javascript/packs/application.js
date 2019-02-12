@@ -34,9 +34,7 @@ import AdminNavBar from '../application/admin_navbar.vue'
 Vue.component('admin_navbar', AdminNavBar)
 
 // ..Users components
-import UserForm from '../users/form.vue'
 import UserIndex from '../users/index.vue'
-Vue.component('user_form', UserForm)
 Vue.component('user_index', UserIndex)
 
 // Global events

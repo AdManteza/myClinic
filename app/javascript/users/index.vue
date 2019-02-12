@@ -41,10 +41,15 @@
         <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
       </b-col>
     </b-row>
+    <b-btn @click="addUser()" variant="primary">Add a new user</b-btn>
+
+    <UserForm></UserForm>
   </div>
 </template>
 
 <script>
+  import UserForm from '../users/form.vue'
+
   export default {
     data () {
       return {
@@ -66,8 +71,12 @@
         pageOptions: [ 5, 10, 15 ],
         deleteError: false,
         showSucessMessage: 0,
+        userToEdit: {},
         isBusy: false
       }
+    },
+    components: {
+      UserForm
     },
     created () {
       this.$eventHub.$on('new-user-added', this.refreshTable)
@@ -79,8 +88,13 @@
       createAppointment (user) {
         console.log(user.username)
       },
+      addUser () {
+        this.$root.$emit('bv::show::modal', 'userForm')
+      },
       editUser (user) {
-        alert('Coming Soon!')
+        // ToDO
+        this.userToEdit = user
+        this.$root.$emit('bv::show::modal', 'userForm')
       },
       getUsers () {
         let promise = this.$http.get('/admin/users.json')
