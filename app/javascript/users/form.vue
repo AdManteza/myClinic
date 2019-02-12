@@ -116,13 +116,13 @@
       closeForm () {
         this.$root.$emit('bv::hide::modal','userForm')
       },
-      handleNewUser (params) {
+      handleCreateUser (params) {
         let promise = this.$http.post('/admin/users.json', { user: params })
 
         return promise.then((data) => {
           this.clearForm()
           this.closeForm()
-          this.$eventHub.$emit('new-user-added')
+          this.$eventHub.$emit('new-user-added', this.user)
         }).catch(error => {
           this.saveError = true
         })
@@ -133,6 +133,7 @@
         return promise.then((data) => {
           this.clearForm()
           this.closeForm()
+          this.userToEdit = {}
         }).catch(error => {
           this.saveError = true
         })
@@ -153,7 +154,7 @@
         if (this.userToEdit) {
           this.handleUpdateUser(params)
         } else {
-          this.handleNewUser(params)
+          this.handleCreateUser(params)
         }
       }
     }

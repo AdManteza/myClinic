@@ -79,7 +79,7 @@
       UserForm
     },
     created () {
-      this.$eventHub.$on('new-user-added', this.refreshTable)
+      this.$eventHub.$on('new-user-added', this.refreshTable(this.user))
     },
     beforeDestroy () {
       this.$eventHub.$off('new-user-added');
@@ -128,7 +128,8 @@
           this.deleteError = true
         })
       },
-      refreshTable () {
+      refreshTable (user) {
+        debugger
         this.$root.$emit('bv::refresh::table', 'users-table')
       }
     }
