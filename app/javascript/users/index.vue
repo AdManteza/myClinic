@@ -43,7 +43,7 @@
     </b-row>
     <b-btn @click="addUser()" variant="primary">Add a new user</b-btn>
 
-    <UserForm></UserForm>
+    <UserForm :user-to-edit="userToEdit"></UserForm>
   </div>
 </template>
 
@@ -89,10 +89,10 @@
         console.log(user.username)
       },
       addUser () {
+        this.userToEdit = {}
         this.$root.$emit('bv::show::modal', 'userForm')
       },
       editUser (user) {
-        // ToDO
         this.userToEdit = user
         this.$root.$emit('bv::show::modal', 'userForm')
       },

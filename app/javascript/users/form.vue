@@ -1,7 +1,7 @@
 <template>
   <b-modal id="userForm"
-           title="New User"
-           ok-title="Add"
+           title="Add User"
+           ok-title="Save"
            v-bind:ok-disabled="$v.user.$invalid"
            @cancel="clearForm"
            @ok="handleOk">
@@ -80,10 +80,16 @@
   import { required, minLength } from 'vuelidate/lib/validators'
 
   export default {
+    props: ['userToEdit'],
     data () {
       return {
         saveError: false,
         user: {}
+      }
+    },
+    watch: {
+      userToEdit: function () {
+        this.user = this.userToEdit
       }
     },
     mixins: [ validationMixin ],
@@ -120,7 +126,13 @@
           email_address: this.user.email_address,
         }
 
-        let promise = this.$http.post('/admin/users.json', { user: params })
+        if (this.userToEdit) {
+          let url = this.$http.put(`/admin/users/${this.userToEdit.id}.json`, { user: params })
+        } else {
+          let url = this.$http.post('/admin/users.json', { user: params })
+        }
+
+        let promise = this.$http.put(`/admin/users/${this.userToEdit.id}.json`, { user: params })
 
         return promise.then((data) => {
           this.clearForm()
