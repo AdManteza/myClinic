@@ -90,7 +90,7 @@
     },
     methods: {
       createAppointment (user) {
-        console.log(user.username)
+        alert('Coming Soon for' + user.name)
       },
       addUser () {
         this.$root.$emit('bv::show::modal', 'userForm')
