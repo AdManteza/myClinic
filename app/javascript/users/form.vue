@@ -114,15 +114,15 @@
         this.user = {}
       },
       closeForm () {
+        this.clearForm()
         this.$root.$emit('bv::hide::modal','userForm')
       },
       handleCreateUser (params) {
         let promise = this.$http.post('/admin/users.json', { user: params })
 
         return promise.then((data) => {
-          this.clearForm()
           this.closeForm()
-          this.$eventHub.$emit('new-user-added', this.user)
+          this.$eventHub.$emit('new-user-added', 'users-table')
         }).catch(error => {
           this.saveError = true
         })

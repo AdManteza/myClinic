@@ -31,7 +31,7 @@
         <b-button size="sm" variant="success" @click.stop="createAppointment(row.item)" class="mr-1">
           Book an Appointment
         </b-button>
-        <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index, $event.target)">
+        <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index)">
           Remove?
         </b-button>
       </template>
@@ -53,7 +53,7 @@
   export default {
     data () {
       return {
-        users: this.getUsers,
+        users: [],
         sortBy: 'id',
         sortDesc: true,
         fields: [
@@ -78,8 +78,11 @@
     components: {
       UserForm
     },
+    mounted () {
+      this.getUsers()
+    },
     created () {
-      this.$eventHub.$on('new-user-added', this.refreshTable(this.user))
+      this.$eventHub.$on('new-user-added', this.refreshTable())
     },
     beforeDestroy () {
       this.$eventHub.$off('new-user-added');
@@ -102,17 +105,17 @@
         return promise.then((data) => {
           const items    = data.body
           this.totalRows = items.length
+          this.users     = items
           this.isBusy    = false
-
-          return(items)
         }).catch(error => {
           this.isBusy = false
 
           return []
         })
       },
-      removeUser (user, row_index, event_target) {
+      removeUser (user, userIndex) {
         this.deleteError = false
+        this.userIndex   = userIndex
         var dontDelete   = !(confirm(`Really delete ${user.firstname} ${user.lastname}?`))
 
         if (dontDelete) {
@@ -123,13 +126,12 @@
 
         return promise.then((data) => {
           this.showSucessMessage = 5 //in seconds
-          this.refreshTable()
+          this.$delete(this.users, this.userIndex)
         }).catch(error => {
           this.deleteError = true
         })
       },
-      refreshTable (user) {
-        debugger
+      refreshTable () {
         this.$root.$emit('bv::refresh::table', 'users-table')
       }
     }
