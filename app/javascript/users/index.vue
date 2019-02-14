@@ -43,7 +43,7 @@
     </b-row>
     <b-btn @click="addUser()" variant="primary">Add a new user</b-btn>
 
-    <UserForm :user-to-edit="userToEdit"></UserForm>
+    <UserForm></UserForm>
   </div>
 </template>
 
@@ -71,7 +71,6 @@
         pageOptions: [ 5, 10, 15 ],
         deleteError: false,
         showSucessMessage: 0,
-        userToEdit: {},
         isBusy: false
       }
     },
@@ -82,7 +81,9 @@
       this.getUsers()
     },
     created () {
-      this.$eventHub.$on('new-user-added', this.refreshTable())
+      this.$eventHub.$on('new-user-added', user => {
+        this.addUserToTable(user)
+      })
     },
     beforeDestroy () {
       this.$eventHub.$off('new-user-added');
@@ -92,11 +93,10 @@
         console.log(user.username)
       },
       addUser () {
-        this.userToEdit = {}
         this.$root.$emit('bv::show::modal', 'userForm')
       },
       editUser (user) {
-        this.userToEdit = user
+        this.$eventHub.$emit('edit-a-user', user)
         this.$root.$emit('bv::show::modal', 'userForm')
       },
       getUsers () {
@@ -131,8 +131,8 @@
           this.deleteError = true
         })
       },
-      refreshTable () {
-        this.$root.$emit('bv::refresh::table', 'users-table')
+      addUserToTable (user) {
+        this.users.push(user)
       }
     }
   }

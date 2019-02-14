@@ -1,6 +1,6 @@
 <template>
   <b-modal id="userForm"
-           title="Add User"
+           v-bind:title="title"
            ok-title="Save"
            v-bind:ok-disabled="$v.user.$invalid"
            @cancel="clearForm"
@@ -80,17 +80,26 @@
   import { required, minLength } from 'vuelidate/lib/validators'
 
   export default {
-    props: ['userToEdit'],
     data () {
       return {
+        user: {},
         saveError: false,
-        user: {}
+        editMode: false
       }
     },
-    watch: {
-      userToEdit: function () {
-        this.user = this.userToEdit
+    computed: {
+      title () {
+        return (this.editMode ? 'Edit User' : 'Add User')
       }
+    },
+    created () {
+      this.$eventHub.$on('edit-a-user', user => {
+        this.user = user
+        this.editMode = true
+      })
+    },
+    beforeDestroy () {
+      this.$eventHub.$off('edit-a-user')
     },
     mixins: [ validationMixin ],
     validations: {
@@ -115,25 +124,24 @@
       },
       closeForm () {
         this.clearForm()
-        this.$root.$emit('bv::hide::modal','userForm')
+        this.$root.$emit('bv::hide::modal', 'userForm')
       },
       handleCreateUser (params) {
         let promise = this.$http.post('/admin/users.json', { user: params })
 
         return promise.then((data) => {
           this.closeForm()
-          this.$eventHub.$emit('new-user-added', 'users-table')
+          this.$eventHub.$emit('new-user-added', data.body)
         }).catch(error => {
           this.saveError = true
         })
       },
       handleUpdateUser (params) {
-        let promise = this.$http.put(`/admin/users/${this.userToEdit.id}.json`, { user: params })
+        let promise = this.$http.put(`/admin/users/${this.user.id}.json`, { user: params })
 
         return promise.then((data) => {
-          this.clearForm()
           this.closeForm()
-          this.userToEdit = {}
+          this.editMode = false
         }).catch(error => {
           this.saveError = true
         })
@@ -151,7 +159,7 @@
           email_address: this.user.email_address,
         }
 
-        if (this.userToEdit) {
+        if (this.editMode) {
           this.handleUpdateUser(params)
         } else {
           this.handleCreateUser(params)
