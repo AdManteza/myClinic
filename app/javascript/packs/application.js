@@ -41,6 +41,10 @@ Vue.component('admin_navbar', AdminNavBar)
 import UserIndex from '../users/index.vue'
 Vue.component('user_index', UserIndex)
 
+// ..Appointments components
+import AppointmentForm from '../appointments/form.vue'
+Vue.component('appointment_form', AppointmentForm)
+
 // Global events
 Vue.prototype.$eventHub = new Vue()
 
