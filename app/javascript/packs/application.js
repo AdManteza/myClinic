@@ -24,8 +24,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
+// Calendar
+import VueCal from 'vue-cal'
+Vue.component('vue_cal', VueCal)
+
 // My Components
-// Common components
+// ..Common components
 import LoginForm from '../common/login_form.vue'
 Vue.component('login_form', LoginForm)
 
