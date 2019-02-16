@@ -1,4 +1,8 @@
 class Admin::PatientSessionsController < Admin::AdminController
+  def index
+    @patient_sessions = current_site.patient_sessions
+  end
+
   def create
     @patient_session = current_site.patient_session.build(
       date:       patient_session_params[:date],
@@ -21,6 +25,17 @@ class Admin::PatientSessionsController < Admin::AdminController
 
 private
 
+  def get_patient_sessions
+    patient_sessions = current_site.patient_sessions
+    patient_sessions = patient_sessions.available if available_only?
+
+    patient_sessions
+  end
+
+  def available_only?
+    patient_session_params.fetch(:available_only, false)
+  end
+
   def bulk_create?
     patient_session_params[:per_day].to_i > 1
   end
@@ -35,7 +50,8 @@ private
       :starting_time,
       :duration,
       :interval,
-      :per_day
+      :per_day,
+      :available_only
     )
   end
 end
