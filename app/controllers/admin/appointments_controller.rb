@@ -69,6 +69,14 @@ class Admin::AppointmentsController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-      params.fetch(:appointment, {})
+      params.fetch(:appointment).permit(
+        :bulk_create,
+        :start_date,
+        :end_date,
+        :starting_time,
+        :duration,
+        :interval,
+        :per_day
+      )
     end
 end

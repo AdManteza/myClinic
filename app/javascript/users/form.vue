@@ -150,7 +150,7 @@
         event.preventDefault()
         this.saveError = false
 
-        const params = {
+        let params = {
           username: this.user.username,
           firstname: this.user.firstname,
           lastname: this.user.lastname,

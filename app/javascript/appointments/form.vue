@@ -1,19 +1,25 @@
 <template>
   <div>
-    <b-btn @click="createAppointments()" variant="primary">Create Appointments</b-btn>
+    <b-btn @click="showAppointmentForm()" variant="primary">Bulk Create Appointments</b-btn>
     <b-modal id="appointmentForm"
              title="Bulk Create Appointments"
-             ok-title="Save">
+             ok-title="Bulk Create"
+             v-bind:ok-disabled="$v.appointment.$invalid"
+             @cancel="closeAppointmentForm"
+             @ok="handleOk">
+      <b-alert show dismissible variant="danger" v-if="saveError">
+        <p>There was a problem bulk creating the appointments. Please try again. If problem persists, please contact Technical Support.</p>
+      </b-alert>
       <b-form>
         <b-form-group horizontal
                       label="From:"
                       label-for="appointment-start-date">
           <b-form-input id="appointment-start-date"
                         type="date"
-                        :state="!$v.appointment.startDate.$invalid"
-                        v-model.trim="appointment.startDate"
-                        aria-describedby="startDateFeedback"/>
-          <b-form-invalid-feedback id="startDateFeedback">
+                        :state="!$v.appointment.start_date.$invalid"
+                        v-model.trim="appointment.start_date"
+                        aria-describedby="start_date_feedback"/>
+          <b-form-invalid-feedback id="start_date_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
@@ -22,10 +28,10 @@
                       label-for="appointment-end-date">
           <b-form-input id="appointment-end-date"
                         type="date"
-                        :state="!$v.appointment.endDate.$invalid"
-                        v-model.trim="appointment.endDate"
-                        aria-describedby="endDateFeedback"/>
-          <b-form-invalid-feedback id="endDateFeedback">
+                        :state="!$v.appointment.end_date.$invalid"
+                        v-model.trim="appointment.end_date"
+                        aria-describedby="end_date_feedback"/>
+          <b-form-invalid-feedback id="end_date_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
@@ -35,10 +41,10 @@
                       description="First appointment will start at this time">
           <b-form-input id="appointment-starting-time"
                         type="time"
-                        :state="!$v.appointment.startingTime.$invalid"
-                        v-model.trim="appointment.startingTime"
-                        aria-describedby="startingTimeFeedback"/>
-          <b-form-invalid-feedback id="startingTimeFeedback">
+                        :state="!$v.appointment.starting_time.$invalid"
+                        v-model.trim="appointment.starting_time"
+                        aria-describedby="starting_time_feedback"/>
+          <b-form-invalid-feedback id="starting_time_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
@@ -50,8 +56,8 @@
                         placeholder="Duration of each appointment(in minutes)"
                         :state="!$v.appointment.duration.$invalid"
                         v-model.trim="appointment.duration"
-                        aria-describedby="durationFeedback"/>
-          <b-form-invalid-feedback id="durationFeedback">
+                        aria-describedby="duration_feedback"/>
+          <b-form-invalid-feedback id="duration_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
@@ -63,8 +69,8 @@
                         placeholder="Interval between appointments(in minutes)"
                         :state="!$v.appointment.interval.$invalid"
                         v-model.trim="appointment.interval"
-                        aria-describedby="intervalFeedback"/>
-          <b-form-invalid-feedback id="intervalFeedback">
+                        aria-describedby="interval_feedback"/>
+          <b-form-invalid-feedback id="interval_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
@@ -74,10 +80,10 @@
           <b-form-input id="appointments-per-day"
                         type="number"
                         placeholder="Number of appointments for day"
-                        :state="!$v.appointment.perDay.$invalid"
-                        v-model.trim="appointment.perDay"
-                        aria-describedby="perDayFeedback"/>
-          <b-form-invalid-feedback id="perDayFeedback">
+                        :state="!$v.appointment.per_day.$invalid"
+                        v-model.trim="appointment.per_day"
+                        aria-describedby="per_day_feedback"/>
+          <b-form-invalid-feedback id="per_day_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
@@ -99,13 +105,13 @@
     mixins: [ validationMixin ],
     validations: {
       appointment: {
-        startDate: {
+        start_date: {
           required
         },
-        endDate: {
+        end_date: {
           required
         },
-        startingTime: {
+        starting_time: {
           required
         },
         duration: {
@@ -114,16 +120,35 @@
         interval: {
           required
         },
-        perDay: {
+        per_day: {
           required
         }
       }
     },
     methods: {
-      createAppointments () {
+      showAppointmentForm () {
         this.$root.$emit('bv::show::modal', 'appointmentForm')
+      },
+      closeAppointmentForm () {
+        this.appointment = {}
+        this.$root.$emit('bv::hide::modal', 'appointmentForm')
+      },
+      handleOk (event) {
+        event.preventDefault()
+        this.saveError = false
 
-        let promise = this.$http.post('/admin/appointments.json', { appointment: appointment })
+        let appointmentParams = Object.assign(this.appointment, { bulk_create: true })
+
+        let promise = this.$http.post('/admin/appointments.json', { appointment: appointmentParams })
+
+        return promise.then((data) => {
+          debugger
+          this.closeAppointmentForm()
+          this.saveError = false
+        }).catch(error => {
+          debugger
+          this.saveError = true
+        })
       }
     }
   }
