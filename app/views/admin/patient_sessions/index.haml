@@ -1,0 +1,8 @@
+- @patient_sessions.each do |patient_session|
+  %div
+    %p Patient Session
+    %p= patient_session.id
+    %p= patient_session.date
+    %p= patient_session.start_time
+    %p= patient_session.end_time
+  %hr
