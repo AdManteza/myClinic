@@ -1,6 +1,11 @@
 class Admin::PatientSessionsController < Admin::AdminController
   def index
     @patient_sessions = current_site.patient_sessions
+
+    respond_to do |format|
+      format.html do; end
+      format.json { render json: @patient_sessions }
+    end
   end
 
   def create

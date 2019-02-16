@@ -45,6 +45,10 @@ Vue.component('user_index', UserIndex)
 import AppointmentForm from '../appointments/form.vue'
 Vue.component('appointment_form', AppointmentForm)
 
+// ..Appointments components
+import PatientSessionForm from '../patient_sessions/form.vue'
+Vue.component('patient_session_form', PatientSessionForm)
+
 // Global events
 Vue.prototype.$eventHub = new Vue()
 
