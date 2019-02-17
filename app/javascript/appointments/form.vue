@@ -1,92 +1,23 @@
 <template>
   <div>
-    <b-btn @click="showAppointmentForm()" variant="primary">Bulk Create Appointments</b-btn>
     <b-modal id="appointmentForm"
-             title="Bulk Create Appointments"
-             ok-title="Bulk Create"
+             title="Book an Appointment"
+             ok-title="Save"
              v-bind:ok-disabled="$v.appointment.$invalid"
+             size="xl"
              @cancel="closeAppointmentForm"
              @ok="handleOk">
       <b-alert show dismissible variant="danger" v-if="saveError">
-        <p>There was a problem bulk creating the appointments. Please try again. If problem persists, please contact Technical Support.</p>
+        <p>There was a problem booking your appointment. Please try again. If problem persists, please contact Technical Support.</p>
       </b-alert>
       <b-form>
-        <b-form-group horizontal
-                      label="From:"
-                      label-for="appointment-start-date">
-          <b-form-input id="appointment-start-date"
-                        type="date"
-                        :state="!$v.appointment.start_date.$invalid"
-                        v-model.trim="appointment.start_date"
-                        aria-describedby="start_date_feedback"/>
-          <b-form-invalid-feedback id="start_date_feedback">
-            This is a required field
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group horizontal
-                      label="To:"
-                      label-for="appointment-end-date">
-          <b-form-input id="appointment-end-date"
-                        type="date"
-                        :state="!$v.appointment.end_date.$invalid"
-                        v-model.trim="appointment.end_date"
-                        aria-describedby="end_date_feedback"/>
-          <b-form-invalid-feedback id="end_date_feedback">
-            This is a required field
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group horizontal
-                      label="Starting time"
-                      label-for="appointment-starting-time"
-                      description="First appointment will start at this time">
-          <b-form-input id="appointment-starting-time"
-                        type="time"
-                        :state="!$v.appointment.starting_time.$invalid"
-                        v-model.trim="appointment.starting_time"
-                        aria-describedby="starting_time_feedback"/>
-          <b-form-invalid-feedback id="starting_time_feedback">
-            This is a required field
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group horizontal
-                      label="Duration"
-                      label-for="appointment-duration">
-          <b-form-input id="appointment-duration"
-                        type="number"
-                        placeholder="Duration of each appointment(in minutes)"
-                        :state="!$v.appointment.duration.$invalid"
-                        v-model.trim="appointment.duration"
-                        aria-describedby="duration_feedback"/>
-          <b-form-invalid-feedback id="duration_feedback">
-            This is a required field
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group horizontal
-                      label="Interval"
-                      label-for="appointment-interval">
-          <b-form-input id="appointment-interval"
-                        type="number"
-                        placeholder="Interval between appointments(in minutes)"
-                        :state="!$v.appointment.interval.$invalid"
-                        v-model.trim="appointment.interval"
-                        aria-describedby="interval_feedback"/>
-          <b-form-invalid-feedback id="interval_feedback">
-            This is a required field
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group horizontal
-                      label="Per day"
-                      label-for="appointments-per-day">
-          <b-form-input id="appointments-per-day"
-                        type="number"
-                        placeholder="Number of appointments for day"
-                        :state="!$v.appointment.per_day.$invalid"
-                        v-model.trim="appointment.per_day"
-                        aria-describedby="per_day_feedback"/>
-          <b-form-invalid-feedback id="per_day_feedback">
-            This is a required field
-          </b-form-invalid-feedback>
-        </b-form-group>
+        <b-input-group size="sm"
+                       class="w-25">
+          <b-form-input type="date" v-model.trim="search.dates"/>
+          <b-input-group-append>
+            <b-button @click="searchForPatientSessions()" text="Search" variant="success">Search</b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-form>
     </b-modal>
   </div>
@@ -94,15 +25,23 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
+  import VueCal from 'vue-cal'
 
   export default {
     data () {
       return {
         appointment: {},
-        saveError: false
+        search: { dates: [] },
+        availableSessions: [],
+        nothingAvailable: false,
+        saveError: false,
+        searchError: false
       }
     },
     mixins: [ validationMixin ],
+    components: {
+      VueCal
+    },
     validations: {
       appointment: {
         start_date: {
@@ -126,12 +65,27 @@
       }
     },
     methods: {
-      showAppointmentForm () {
-        this.$root.$emit('bv::show::modal', 'appointmentForm')
-      },
       closeAppointmentForm () {
         this.appointment = {}
         this.$root.$emit('bv::hide::modal', 'appointmentForm')
+      },
+      searchForPatientSessions () {
+        debugger
+        this.nothingAvailable = false
+        this.searchError = false
+
+        let searchParams = {
+          search_dates: this.search.dates,
+          available_only: true
+        }
+
+        let promise = this.$http.get('/admin/patient_sessions.json', { appointment: searchParams })
+
+        return promise.then((data) => {
+          this.availableSessions = data
+        }).catch(error => {
+          this.searchError = true
+        })
       },
       handleOk (event) {
         event.preventDefault()
@@ -142,11 +96,9 @@
         let promise = this.$http.post('/admin/appointments.json', { appointment: appointmentParams })
 
         return promise.then((data) => {
-          debugger
           this.closeAppointmentForm()
           this.saveError = false
         }).catch(error => {
-          debugger
           this.saveError = true
         })
       }

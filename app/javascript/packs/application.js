@@ -26,7 +26,7 @@ Vue.use(BootstrapVue)
 
 // Calendar
 import VueCal from 'vue-cal'
-Vue.component('vue_cal', VueCal)
+Vue.component('vuecal', VueCal)
 
 // My Components
 // ..Common components
@@ -41,11 +41,7 @@ Vue.component('admin_navbar', AdminNavBar)
 import UserIndex from '../users/index.vue'
 Vue.component('user_index', UserIndex)
 
-// ..Appointments components
-import AppointmentForm from '../appointments/form.vue'
-Vue.component('appointment_form', AppointmentForm)
-
-// ..Appointments components
+// ..PatientSessions components
 import PatientSessionForm from '../patient_sessions/form.vue'
 Vue.component('patient_session_form', PatientSessionForm)
 

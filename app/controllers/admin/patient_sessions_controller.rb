@@ -33,12 +33,17 @@ private
   def get_patient_sessions
     patient_sessions = current_site.patient_sessions
     patient_sessions = patient_sessions.available if available_only?
+    patient_sessions = patient_sessions.where(date: search_dates) if search_dates
 
     patient_sessions
   end
 
   def available_only?
     patient_session_params.fetch(:available_only, false)
+  end
+
+  def search_dates
+    patient_session_params.fetch(:search_dates, false)
   end
 
   def bulk_create?
@@ -56,7 +61,8 @@ private
       :duration,
       :interval,
       :per_day,
-      :available_only
+      :available_only,
+      :search_dates
     )
   end
 end

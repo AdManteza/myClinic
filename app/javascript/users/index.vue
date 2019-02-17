@@ -43,13 +43,15 @@
     </b-row>
     <b-btn @click="addUser()" variant="primary">Add a new user</b-btn>
 
+    <AppointmentForm></AppointmentForm>
     <UserForm></UserForm>
   </div>
 </template>
 
 <script>
   import UserForm from '../users/form.vue'
-
+  import AppointmentForm from '../appointments/form.vue'
+  
   export default {
     data () {
       return {
@@ -75,7 +77,7 @@
       }
     },
     components: {
-      UserForm
+      UserForm, AppointmentForm
     },
     mounted () {
       this.getUsers()
@@ -90,7 +92,7 @@
     },
     methods: {
       createAppointment (user) {
-        alert('Coming Soon for' + user.name)
+        this.$root.$emit('bv::show::modal', 'appointmentForm')
       },
       addUser () {
         this.$root.$emit('bv::show::modal', 'userForm')
