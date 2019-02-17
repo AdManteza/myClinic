@@ -1,5 +1,5 @@
 class PatientSessionSerializer < ActiveModel::Serializer
-  attributes :date, :start_time, :end_time
+  attributes :id, :date, :start_time, :end_time
 
   def date
     patient_session.date.to_formatted_s(:long)

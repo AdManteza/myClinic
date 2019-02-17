@@ -2,7 +2,7 @@
 %nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
   .navbar-collapse.collapse.w-100.order-1.order-md-0.dual-collapse2
     - if admin_user?
-      %admin_navbar(current-page="#{request.path}")
+      %AdminNavbar(current-page="#{request.path}")
     
     - elsif @current_user.present?
       %ul.navbar-nav.mr-auto
@@ -17,4 +17,4 @@
   .navbar-collapse.collapse.w-100.order-3.dual-collapse2
     %ul.navbar-nav.ml-auto
       %li.nav-item
-        %login_form(current-user="#{admin_user? ? @current_user.username : nil}")
+        %LoginForm(current-user="#{admin_user? ? @current_user.username : nil}")

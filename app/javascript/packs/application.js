@@ -31,19 +31,23 @@ Vue.component('vuecal', VueCal)
 // My Components
 // ..Common components
 import LoginForm from '../common/login_form.vue'
-Vue.component('login_form', LoginForm)
+Vue.component('loginform', LoginForm)
 
 // ..Application components
 import AdminNavBar from '../application/admin_navbar.vue'
-Vue.component('admin_navbar', AdminNavBar)
+Vue.component('adminnavbar', AdminNavBar)
+
+// ..Appointments components
+import AppointmentForm from '../appointments/form.vue'
+Vue.component('appointmentform', AppointmentForm)
 
 // ..Users components
 import UserIndex from '../users/index.vue'
-Vue.component('user_index', UserIndex)
+Vue.component('userindex', UserIndex)
 
 // ..PatientSessions components
 import PatientSessionForm from '../patient_sessions/form.vue'
-Vue.component('patient_session_form', PatientSessionForm)
+Vue.component('patientsessionform', PatientSessionForm)
 
 // Global events
 Vue.prototype.$eventHub = new Vue()

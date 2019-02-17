@@ -8,7 +8,7 @@
               fade
               variant="success"
               @dismissed="showSucessMessage=0">
-      <p>Successfully removed user!</p>
+      <p>{{successMessage}}</p>
     </b-alert>
     <b-table id="users-table"
              show-empty
@@ -28,7 +28,7 @@
         <b-button size="sm" variant="secondary" @click.stop="editUser(row.item)" class="mr-1">
           Edit
         </b-button>
-        <b-button size="sm" variant="success" @click.stop="createAppointment(row.item)" class="mr-1">
+        <b-button size="sm" variant="success" v-b-modal.appointmentForm class="mr-1">
           Book an Appointment
         </b-button>
         <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index)">
@@ -41,7 +41,7 @@
         <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
       </b-col>
     </b-row>
-    <b-btn @click="addUser()" variant="primary">Add a new user</b-btn>
+    <b-btn v-b-modal.userForm variant="primary">Add a new user</b-btn>
 
     <AppointmentForm></AppointmentForm>
     <UserForm></UserForm>
@@ -73,6 +73,7 @@
         pageOptions: [ 5, 10, 15 ],
         deleteError: false,
         showSucessMessage: 0,
+        successMessage: '',
         isBusy: false
       }
     },
@@ -86,17 +87,16 @@
       this.$eventHub.$on('new-user-added', user => {
         this.addUserToTable(user)
       })
+
+      this.$eventHub.$on('user-updated', user => {
+        this.successMessage = `Successfully updated ${user.full_name}`
+        this.showSucessMessage = 5 //in seconds
+      })
     },
     beforeDestroy () {
       this.$eventHub.$off('new-user-added');
     },
     methods: {
-      createAppointment (user) {
-        this.$root.$emit('bv::show::modal', 'appointmentForm')
-      },
-      addUser () {
-        this.$root.$emit('bv::show::modal', 'userForm')
-      },
       editUser (user) {
         this.$eventHub.$emit('edit-a-user', user)
         this.$root.$emit('bv::show::modal', 'userForm')
@@ -118,7 +118,7 @@
       removeUser (user, userIndex) {
         this.deleteError = false
         this.userIndex   = userIndex
-        var dontDelete   = !(confirm(`Really delete ${user.firstname} ${user.lastname}?`))
+        var dontDelete   = !(confirm(`Really delete ${user.full_name}?`))
 
         if (dontDelete) {
           return;
@@ -127,6 +127,7 @@
         let promise = this.$http.delete(`/admin/users/${user.id}.json`)
 
         return promise.then((data) => {
+          this.successMessage = 'Successfully removed user!'
           this.showSucessMessage = 5 //in seconds
           this.$delete(this.users, this.userIndex)
         }).catch(error => {
@@ -134,6 +135,8 @@
         })
       },
       addUserToTable (user) {
+        this.successMessage = `Successfully added ${user.full_name}`
+        this.showSucessMessage = 5 //in seconds
         this.users.push(user)
       }
     }

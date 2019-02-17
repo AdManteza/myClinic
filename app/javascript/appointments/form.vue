@@ -1,38 +1,40 @@
 <template>
   <div>
-    <b-modal id="appointmentForm"
+    <b-modal scrollable
+             id="appointmentForm"
              title="Book an Appointment"
              ok-title="Save"
              v-bind:ok-disabled="$v.appointment.$invalid"
-             size="xl"
              @cancel="closeAppointmentForm"
              @ok="handleOk">
       <b-alert show dismissible variant="danger" v-if="saveError">
         <p>There was a problem booking your appointment. Please try again. If problem persists, please contact Technical Support.</p>
       </b-alert>
       <b-form>
-        <b-input-group size="sm"
-                       class="w-25">
+        <b-input-group class="w-75">
           <b-form-input type="date" v-model.trim="searchDate"/>
           <b-input-group-append>
             <b-button @click="searchForAvailablePatientSessions()" text="Search" variant="success">Search</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-form>
+      <div horizontal="md" class="mt-4">
+        <AvailablePatientSession v-bind:session="session" v-for="session in availablePatientSessions"></AvailablePatientSession>
+      </div>
     </b-modal>
   </div>
 </template>
 <script>
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
-  import VueCal from 'vue-cal'
+  import AvailablePatientSession from '../patient_sessions/available.vue'
 
   export default {
     data () {
       return {
         appointment: {},
         searchDate: '',
-        availableSessions: [],
+        availablePatientSessions: [],
         nothingAvailable: false,
         saveError: false,
         searchError: false
@@ -40,7 +42,7 @@
     },
     mixins: [ validationMixin ],
     components: {
-      VueCal
+      AvailablePatientSession
     },
     validations: {
       appointment: {
@@ -81,7 +83,7 @@
         let promise = this.$http.get('/admin/patient_sessions.json', { params: searchParams })
 
         return promise.then((data) => {
-          this.availableSessions = data
+          this.availablePatientSessions = data.body
         }).catch(error => {
           this.searchError = true
         })

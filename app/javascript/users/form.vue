@@ -142,6 +142,7 @@
         return promise.then((data) => {
           this.closeForm()
           this.editMode = false
+          this.$eventHub.$emit('user-updated', data.body)
         }).catch(error => {
           this.saveError = true
         })
