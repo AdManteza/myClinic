@@ -13,9 +13,9 @@
       <b-form>
         <b-input-group size="sm"
                        class="w-25">
-          <b-form-input type="date" v-model.trim="search.dates"/>
+          <b-form-input type="date" v-model.trim="searchDate"/>
           <b-input-group-append>
-            <b-button @click="searchForPatientSessions()" text="Search" variant="success">Search</b-button>
+            <b-button @click="searchForAvailablePatientSessions()" text="Search" variant="success">Search</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-form>
@@ -31,7 +31,7 @@
     data () {
       return {
         appointment: {},
-        search: { dates: [] },
+        searchDate: '',
         availableSessions: [],
         nothingAvailable: false,
         saveError: false,
@@ -69,17 +69,16 @@
         this.appointment = {}
         this.$root.$emit('bv::hide::modal', 'appointmentForm')
       },
-      searchForPatientSessions () {
-        debugger
+      searchForAvailablePatientSessions () {
         this.nothingAvailable = false
         this.searchError = false
 
         let searchParams = {
-          search_dates: this.search.dates,
+          search_date: this.searchDate,
           available_only: true
         }
 
-        let promise = this.$http.get('/admin/patient_sessions.json', { appointment: searchParams })
+        let promise = this.$http.get('/admin/patient_sessions.json', { params: searchParams })
 
         return promise.then((data) => {
           this.availableSessions = data

@@ -1,7 +1,7 @@
 class Admin::PatientSessionsController < Admin::AdminController
-  def index
-    @patient_sessions = current_site.patient_sessions
+  before_action :patient_sessions, only: [:index]
 
+  def index
     respond_to do |format|
       format.html do; end
       format.json { render json: @patient_sessions }
@@ -30,20 +30,22 @@ class Admin::PatientSessionsController < Admin::AdminController
 
 private
 
-  def get_patient_sessions
-    patient_sessions = current_site.patient_sessions
-    patient_sessions = patient_sessions.available if available_only?
-    patient_sessions = patient_sessions.where(date: search_dates) if search_dates
+  def patient_sessions
+    @patient_sessions ||= begin
+      scope = current_site.patient_sessions
+      scope = scope.available if available_only?
+      scope = scope.where(date: search_date) if search_date
 
-    patient_sessions
+      scope
+    end
   end
 
   def available_only?
-    patient_session_params.fetch(:available_only, false)
+    params.fetch(:available_only, false)
   end
 
-  def search_dates
-    patient_session_params.fetch(:search_dates, false)
+  def search_date
+    params.fetch(:search_date, false)
   end
 
   def bulk_create?
@@ -60,9 +62,7 @@ private
       :starting_time,
       :duration,
       :interval,
-      :per_day,
-      :available_only,
-      :search_dates
+      :per_day
     )
   end
 end
