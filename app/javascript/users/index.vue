@@ -92,10 +92,17 @@
         this.successMessage = `Successfully updated ${user.full_name}`
         this.showSucessMessage = 5 //in seconds
       })
+
+      this.$eventHub.$on('new-appointment', appointment => {
+        debugger
+        this.successMessage = `Successfully booked ${appointment.patient_name} on ${appointment.date_and_time}`
+        this.showSucessMessage = 10 //in seconds
+      })
     },
     beforeDestroy () {
       this.$eventHub.$off('new-user-added')
       this.$eventHub.$off('user-updated')
+      this.$eventHub.$off('new-appointment')
     },
     methods: {
       editUser (user) {

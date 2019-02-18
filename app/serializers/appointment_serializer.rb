@@ -1,5 +1,11 @@
 class AppointmentSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :patient_session_id, :date_and_time
+  attributes :id, :user_id, :patient_session_id, :date_and_time, :patient_name
+
+  def patient_name
+    return unless appointment.user_id.present?
+
+    "#{appointment.user.full_name}"
+  end
 
   def date_and_time
     return unless appointment.patient_session_id.present?
@@ -14,6 +20,6 @@ private
   end
 
   def patient_session
-    PatientSessionSerializer.new(@object.patient_session)
+    PatientSessionSerializer.new(appointment.patient_session)
   end
 end

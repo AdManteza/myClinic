@@ -18,11 +18,11 @@
           </b-input-group-append>
         </b-input-group>
       </b-form>
-      <b-alert show variant="warning" class="mt-4" v-if="nothingAvailable">
+      <b-alert show dismissible variant="warning" class="mt-4" v-if="nothingAvailable">
         <p>Unfortunately there are no available sessions based on your selected date. Please try again</p>
       </b-alert>
       <div horizontal="md" class="mt-4">
-        <AvailablePatientSession :session="session" v-for="session in availablePatientSessions"></AvailablePatientSession>
+        <AvailablePatientSession :session="session" v-for="session in availablePatientSessions" :key="session.id"></AvailablePatientSession>
       </div>
     </b-modal>
   </div>
@@ -109,6 +109,7 @@
         return promise.then((data) => {
           this.closeAppointmentForm()
           this.saveError = false
+          this.$eventHub.$emit('new-appointment', data.body)
         }).catch(error => {
           this.saveError = true
         })
