@@ -1,0 +1,17 @@
+%table
+  %thead
+    %th Id
+    %th Date
+    %th Start Time
+    %th End Time
+    %th Patient
+  %tbody
+    - @patient_sessions.each do |patient_session|
+      %tr
+        %td= patient_session.id
+        %td= patient_session.date
+        %td= patient_session.start_time
+        %td= patient_session.end_time
+        %td= patient_session.patient
+
+%PatientSessionForm

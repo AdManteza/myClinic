@@ -8,7 +8,7 @@
               fade
               variant="success"
               @dismissed="showSucessMessage=0">
-      <p>Successfully removed user!</p>
+      <p>{{successMessage}}</p>
     </b-alert>
     <b-table id="users-table"
              show-empty
@@ -25,10 +25,13 @@
              :current-page="currentPage"
              :per-page="perPage">
       <template slot="actions" slot-scope="row" >
-        <!-- <b-button size="sm" variant="secondary" class="mr-1">
-          User Info
-        </b-button> -->
-        <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index, $event.target)">
+        <b-button size="sm" variant="secondary" @click.stop="editUser(row.item)" class="mr-1">
+          Edit
+        </b-button>
+        <b-button size="sm" variant="success" @click.stop="bookAppointmentForUser(row.item)" class="mr-1">
+          Book an Appointment
+        </b-button>
+        <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index)">
           Remove?
         </b-button>
       </template>
@@ -38,21 +41,30 @@
         <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
       </b-col>
     </b-row>
+    <b-btn v-b-modal.userForm variant="primary">New Patient</b-btn>
+
+    <AppointmentForm></AppointmentForm>
+    <UserForm></UserForm>
   </div>
 </template>
 
 <script>
+  import UserForm from '../users/form.vue'
+  import AppointmentForm from '../appointments/form.vue'
+  
   export default {
     data () {
       return {
-        users: this.getUsers,
+        users: [],
         sortBy: 'id',
         sortDesc: true,
         fields: [
-          { key: 'id', label: 'User ID', sortable: true },
+          { key: 'id', label: 'ID', sortable: true },
           { key: 'username', label: 'Username', sortable: true },
           { key: 'firstname', label: 'First Name', sortable: true },
           { key: 'lastname', label: 'Last Name', sortable: true },
+          { key: 'contact_number', label: 'Contact Number', sortable: true },
+          { key: 'email_address', label: 'Email', sortable: true },
           { key: 'actions', label: 'Actions', sortable: false }
         ],
         currentPage: 1,
@@ -61,34 +73,64 @@
         pageOptions: [ 5, 10, 15 ],
         deleteError: false,
         showSucessMessage: 0,
+        successMessage: '',
         isBusy: false
       }
     },
+    components: {
+      UserForm, AppointmentForm
+    },
+    mounted () {
+      this.getUsers()
+    },
     created () {
-      this.$eventHub.$on('new-user-added', this.refreshTable)
+      this.$eventHub.$on('new-user-added', user => {
+        this.addUserToTable(user)
+      })
+
+      this.$eventHub.$on('user-updated', user => {
+        this.successMessage = `Successfully updated ${user.full_name}`
+        this.showSucessMessage = 5 //in seconds
+      })
+
+      this.$eventHub.$on('new-appointment', appointment => {
+        debugger
+        this.successMessage = `Successfully booked ${appointment.patient_name} on ${appointment.date_and_time}`
+        this.showSucessMessage = 10 //in seconds
+      })
     },
     beforeDestroy () {
-      this.$eventHub.$off('new-user-added');
+      this.$eventHub.$off('new-user-added')
+      this.$eventHub.$off('user-updated')
+      this.$eventHub.$off('new-appointment')
     },
     methods: {
+      editUser (user) {
+        this.$eventHub.$emit('edit-a-user', user)
+        this.$root.$emit('bv::show::modal', 'userForm')
+      },
+      bookAppointmentForUser (user) {
+        this.$eventHub.$emit('book-appointment-for-user', user)
+        this.$root.$emit('bv::show::modal', 'appointmentForm')
+      },
       getUsers () {
         let promise = this.$http.get('/admin/users.json')
 
         return promise.then((data) => {
           const items    = data.body
           this.totalRows = items.length
+          this.users     = items
           this.isBusy    = false
-
-          return(items)
         }).catch(error => {
           this.isBusy = false
 
           return []
         })
       },
-      removeUser (user, row_index, event_target) {
+      removeUser (user, userIndex) {
         this.deleteError = false
-        var dontDelete   = !(confirm(`Really delete ${user.firstname} ${user.lastname}?`))
+        this.userIndex   = userIndex
+        var dontDelete   = !(confirm(`Really delete ${user.full_name}?`))
 
         if (dontDelete) {
           return;
@@ -97,14 +139,17 @@
         let promise = this.$http.delete(`/admin/users/${user.id}.json`)
 
         return promise.then((data) => {
+          this.successMessage = 'Successfully removed user!'
           this.showSucessMessage = 5 //in seconds
-          this.refreshTable()
+          this.$delete(this.users, this.userIndex)
         }).catch(error => {
           this.deleteError = true
         })
       },
-      refreshTable () {
-        this.$root.$emit('bv::refresh::table', 'users-table')
+      addUserToTable (user) {
+        this.successMessage = `Successfully added ${user.full_name}`
+        this.showSucessMessage = 5 //in seconds
+        this.users.push(user)
       }
     }
   }

@@ -2,8 +2,6 @@ class Admin::UsersController < Admin::AdminController
   before_action :user, only: [:show, :edit, :update, :destroy]
   before_action :users, only: [:index]
 
-  # GET /users
-  # GET /users.json
   def index
     respond_to do |format|
       format.html do; end
@@ -11,58 +9,38 @@ class Admin::UsersController < Admin::AdminController
     end
   end
 
-  # POST /users
-  # POST /users.json
   def create
     @user = current_site.users.build(user_params)
+    @user.password = PasswordStrategy.random if user_params[:password].blank?
 
     respond_to do |format|
       if @user.save
-        format.html do
-          redirect_to admin_user_path(@user), notice: 'User was successfully created.'
-        end
-
-        format.json do
-          render json: @user
-        end
+        format.html do; end
+        format.json { render json: @user }
       else
-        format.html do
-          flash[:error] = @user.errors.full_messages
-          render :new
-        end
-
-        format.json do
-          render json: @user.errors, status: :unprocessable_entity
-        end
-      end
-    end
-  end
-
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
-  def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html do
-          redirect_to admin_user_path(@user), notice: 'User was successfully updated.'
-        end
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit }
+        format.html do; end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
+  def update
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html do; end
+        format.json { render json: @user }
+      else
+        format.html do; end
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to admin_users_path, notice: "#{@user.full_name} was successfully deleted."
-      end
 
+    respond_to do |format|
+      format.html do; end
       format.json { head :no_content }
     end
   end
@@ -77,13 +55,14 @@ private
     @users ||= current_site.users
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.fetch(:user).permit(
       :username,
       :firstname,
       :lastname,
-      :password
+      :password,
+      :contact_number,
+      :email_address
     )
   end
 end

@@ -6991,6 +6991,13 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-cal@^1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/vue-cal/-/vue-cal-1.35.0.tgz#d57bb2dea39be1490eb414456fc4c17bbf4954d2"
+  integrity sha512-EonDBWt1p8Gp+U/gmUy56kpea4aR4FoEUVsKX810BvEwdc8ZE9nmuW7hIVCOxGdZ5omLnuUUuV88Ls7qHmL0QQ==
+  dependencies:
+    babel-polyfill "^6.26.0"
+
 vue-functional-data-merge@^2.0.5:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-2.0.7.tgz#bdee655181eacdcb1f96ce95a4cc14e75313d1da"

@@ -1,1 +1,4 @@
-= @appointments
+- @appointments.each do |appointment|
+  %section
+    %p= appointment.id
+    %p= appointment.patient_session.date
