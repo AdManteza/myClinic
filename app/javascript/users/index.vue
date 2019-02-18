@@ -28,7 +28,7 @@
         <b-button size="sm" variant="secondary" @click.stop="editUser(row.item)" class="mr-1">
           Edit
         </b-button>
-        <b-button size="sm" variant="success" v-b-modal.appointmentForm class="mr-1">
+        <b-button size="sm" variant="success" @click.stop="bookAppointmentForUser(row.item)" class="mr-1">
           Book an Appointment
         </b-button>
         <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index)">
@@ -41,7 +41,7 @@
         <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
       </b-col>
     </b-row>
-    <b-btn v-b-modal.userForm variant="primary">Add a new user</b-btn>
+    <b-btn v-b-modal.userForm variant="primary">New Patient</b-btn>
 
     <AppointmentForm></AppointmentForm>
     <UserForm></UserForm>
@@ -94,12 +94,17 @@
       })
     },
     beforeDestroy () {
-      this.$eventHub.$off('new-user-added');
+      this.$eventHub.$off('new-user-added')
+      this.$eventHub.$off('user-updated')
     },
     methods: {
       editUser (user) {
         this.$eventHub.$emit('edit-a-user', user)
         this.$root.$emit('bv::show::modal', 'userForm')
+      },
+      bookAppointmentForUser (user) {
+        this.$eventHub.$emit('book-appointment-for-user', user)
+        this.$root.$emit('bv::show::modal', 'appointmentForm')
       },
       getUsers () {
         let promise = this.$http.get('/admin/users.json')

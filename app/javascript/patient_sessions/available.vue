@@ -13,7 +13,7 @@
           <td>{{session.start_time}}</td>
           <td>{{session.end_time}}</td>
           <td>
-            <b-form-radio v-model="selected" name="session.id">Select</b-form-radio>
+            <b-form-radio :value="session" v-model="selected" name="option" @change="setSelected()"></b-form-radio>
           </td>
         </tr>
       </tbody>
@@ -22,6 +22,16 @@
 </template>
 <script>
   export default {
-    props: ['session']
+    props: ['session'],
+    data () {
+      return {
+        selected: ''
+      }
+    },
+    methods: {
+      setSelected () {
+        this.$eventHub.$emit('set-selected-session', this.session)
+      }
+    }
   }
 </script>

@@ -4,7 +4,7 @@
              id="appointmentForm"
              title="Book an Appointment"
              ok-title="Save"
-             v-bind:ok-disabled="$v.appointment.$invalid"
+             :ok-disabled="$v.selected_session.$invalid"
              @cancel="closeAppointmentForm"
              @ok="handleOk">
       <b-alert show dismissible variant="danger" v-if="saveError">
@@ -19,7 +19,7 @@
         </b-input-group>
       </b-form>
       <div horizontal="md" class="mt-4">
-        <AvailablePatientSession v-bind:session="session" v-for="session in availablePatientSessions"></AvailablePatientSession>
+        <AvailablePatientSession :session="session" v-for="session in availablePatientSessions"></AvailablePatientSession>
       </div>
     </b-modal>
   </div>
@@ -32,7 +32,8 @@
   export default {
     data () {
       return {
-        appointment: {},
+        user: {},
+        selected_session: {},
         searchDate: '',
         availablePatientSessions: [],
         nothingAvailable: false,
@@ -45,33 +46,34 @@
       AvailablePatientSession
     },
     validations: {
-      appointment: {
-        start_date: {
-          required
-        },
-        end_date: {
-          required
-        },
-        starting_time: {
-          required
-        },
-        duration: {
-          required
-        },
-        interval: {
-          required
-        },
-        per_day: {
-          required
-        }
-      }
+      selected_session: { required }
+    },
+    created () {
+      this.$eventHub.$on('set-selected-session', selected_patient_session => {
+        this.selected_session = selected_patient_session
+      })
+
+      this.$eventHub.$on('book-appointment-for-user', user => {
+        this.user = user
+      })
+    },
+    beforeDestroy () {
+      this.$eventHub.$off('set-selected-session')
+      this.$eventHub.$off('book-appointment-for-user')
     },
     methods: {
       closeAppointmentForm () {
-        this.appointment = {}
+        this.searchDate = ''
+        this.availablePatientSessions = []
+        this.selected_session = {}
+        this.user = {}
+        this.searchError = false
+        this.saveError = false
+
         this.$root.$emit('bv::hide::modal', 'appointmentForm')
       },
       searchForAvailablePatientSessions () {
+        this.selected_session = {}
         this.nothingAvailable = false
         this.searchError = false
 
@@ -92,7 +94,10 @@
         event.preventDefault()
         this.saveError = false
 
-        let appointmentParams = Object.assign(this.appointment, { bulk_create: true })
+        let appointmentParams = {
+          patient_session_id: this.selected_session.id,
+          user_id: this.user.id
+        }
 
         let promise = this.$http.post('/admin/appointments.json', { appointment: appointmentParams })
 
