@@ -14,10 +14,13 @@
         <b-input-group class="w-75">
           <b-form-input type="date" v-model.trim="searchDate"/>
           <b-input-group-append>
-            <b-button @click="searchForAvailablePatientSessions()" text="Search" variant="success">Search</b-button>
+            <b-button @click="searchForAvailablePatientSessions()" size="sm" text="Search" variant="success">Search for Sessions</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-form>
+      <b-alert show variant="warning" class="mt-4" v-if="nothingAvailable">
+        <p>Unfortunately there are no available sessions based on your selected date. Please try again</p>
+      </b-alert>
       <div horizontal="md" class="mt-4">
         <AvailablePatientSession :session="session" v-for="session in availablePatientSessions"></AvailablePatientSession>
       </div>
@@ -36,8 +39,8 @@
         selected_session: {},
         searchDate: '',
         availablePatientSessions: [],
-        nothingAvailable: false,
         saveError: false,
+        nothingAvailable: false,
         searchError: false
       }
     },
@@ -69,6 +72,7 @@
         this.user = {}
         this.searchError = false
         this.saveError = false
+        this.nothingAvailable = false
 
         this.$root.$emit('bv::hide::modal', 'appointmentForm')
       },
@@ -86,6 +90,7 @@
 
         return promise.then((data) => {
           this.availablePatientSessions = data.body
+          this.nothingAvailable = this.availablePatientSessions.length == 0
         }).catch(error => {
           this.searchError = true
         })
