@@ -3,6 +3,10 @@ class PatientSession < ApplicationRecord
   has_one :appointment
   has_one :patient, through: :appointment, source: :user
 
+  scope :not_in_the_past, -> do
+    where('date >= ?', Date.today)
+  end
+
   scope :available, -> do
     left_joins(:appointment).where(appointments: { patient_session_id: nil } )
   end
