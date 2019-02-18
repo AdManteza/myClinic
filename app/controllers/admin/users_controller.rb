@@ -2,8 +2,6 @@ class Admin::UsersController < Admin::AdminController
   before_action :user, only: [:show, :edit, :update, :destroy]
   before_action :users, only: [:index]
 
-  # GET /users
-  # GET /users.json
   def index
     respond_to do |format|
       format.html do; end
@@ -17,22 +15,11 @@ class Admin::UsersController < Admin::AdminController
 
     respond_to do |format|
       if @user.save
-        format.html do
-          redirect_to admin_user_path(@user), notice: 'User was successfully created.'
-        end
-
-        format.json do
-          render json: @user
-        end
+        format.html do; end
+        format.json { render json: @user }
       else
-        format.html do
-          flash[:error] = @user.errors.full_messages
-          render :new
-        end
-
-        format.json do
-          render json: @user.errors, status: :unprocessable_entity
-        end
+        format.html do; end
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -40,28 +27,20 @@ class Admin::UsersController < Admin::AdminController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html do
-          redirect_to admin_user_path(@user), notice: 'User was successfully updated.'
-        end
-
+        format.html do; end
         format.json { render json: @user }
       else
-        format.html { render :edit }
-
-        format.json do
-          render json: @user.errors, status: :unprocessable_entity
-        end
+        format.html do; end
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to admin_users_path, notice: "#{@user.full_name} was successfully deleted."
-      end
 
+    respond_to do |format|
+      format.html do; end
       format.json { head :no_content }
     end
   end
@@ -76,7 +55,6 @@ private
     @users ||= current_site.users
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.fetch(:user).permit(
       :username,
