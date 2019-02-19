@@ -12,7 +12,7 @@
       </b-alert>
       <b-form>
         <b-input-group class="w-75">
-          <b-form-input type="date" v-model.trim="searchDate"/>
+          <b-form-input type="date" v-model.trim="searchDate" @change="searchForAvailablePatientSessions()"/>
           <b-input-group-append>
             <b-button @click="searchForAvailablePatientSessions()" size="sm" text="Search" variant="success">Search for Sessions</b-button>
           </b-input-group-append>

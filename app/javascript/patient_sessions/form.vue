@@ -142,11 +142,9 @@
         let promise = this.$http.post('/admin/appointments.json', { patient_session: patientSessionParams })
 
         return promise.then((data) => {
-          debugger
           this.closePatientSessionForm()
           this.saveError = false
         }).catch(error => {
-          debugger
           this.saveError = true
         })
       }
