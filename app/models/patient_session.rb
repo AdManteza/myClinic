@@ -5,6 +5,8 @@ class PatientSession < ApplicationRecord
 
   delegate :time_zone, to: :site
 
+  validate :same_day_for_start_and_end_datetime, :start_time_before_end_time
+
   scope :not_in_the_past, -> do
     where('start_datetime >= ?', Time.zone.now.beginning_of_day)
   end
@@ -21,5 +23,13 @@ class PatientSession < ApplicationRecord
 
   def booked?
     patient.present?
+  end
+
+  def same_day_for_start_and_end_datetime
+    errors.add(:end_datetime, 'Start Time and End Time should be on the same day') if start_datetime.to_date != end_datetime.to_date
+  end
+
+  def start_time_before_end_time
+    errors.add(:end_datetime, 'Start Time should be before End Time') if start_datetime > end_datetime
   end
 end
