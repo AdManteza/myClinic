@@ -34,7 +34,7 @@ private
     @patient_sessions ||= begin
       scope = current_site.patient_sessions
       scope = scope.available.not_in_the_past if available_only?
-      scope = scope.where(date: search_date) if search_date
+      scope = scope.for_date(search_date) if search_date
 
       scope
     end

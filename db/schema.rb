@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_18_192845) do
+ActiveRecord::Schema.define(version: 2019_02_19_012135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 2019_02_18_192845) do
     t.date "date"
     t.time "start_time"
     t.time "end_time"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
     t.index ["site_id"], name: "index_patient_sessions_on_site_id"
   end
 
