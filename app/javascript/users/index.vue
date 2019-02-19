@@ -94,7 +94,6 @@
       })
 
       this.$eventHub.$on('new-appointment', appointment => {
-        debugger
         this.successMessage = `Successfully booked ${appointment.patient_name} on ${appointment.date_and_time}`
         this.showSucessMessage = 10 //in seconds
       })
