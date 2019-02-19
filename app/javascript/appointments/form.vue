@@ -49,7 +49,8 @@
       AvailablePatientSession
     },
     validations: {
-      selected_session: { required }
+      selected_session: { required },
+      searchDate: { required }
     },
     created () {
       this.$eventHub.$on('set-selected-session', selected_patient_session => {
