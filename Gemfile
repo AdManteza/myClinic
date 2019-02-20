@@ -43,6 +43,9 @@ gem 'jquery-rails'
 
 gem 'active_model_serializers'
 
+# Background Jobs
+gem 'sucker_punch'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -79,6 +82,7 @@ group :test do
   gem 'faker'
   gem 'guard-rspec'
   gem 'launchy'
+  gem 'database_cleaner'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
