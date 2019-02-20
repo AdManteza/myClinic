@@ -137,9 +137,16 @@
         event.preventDefault()
         this.saveError = false
 
-        let patientSessionParams = Object.assign(this.patient_session, { bulk_create: true })
+        let patientSessionParams = {
+          start_date: this.patient_session.start_date,
+          end_date: this.patient_session.end_date,
+          starting_time: this.patient_session.starting_time,
+          duration: this.patient_session.duration,
+          interval: this.patient_session.interval,
+          per_day: this.patient_session.per_day
+        }
 
-        let promise = this.$http.post('/admin/appointments.json', { patient_session: patientSessionParams })
+        let promise = this.$http.post('/admin/patient_sessions.json', { patient_session: patientSessionParams })
 
         return promise.then((data) => {
           this.closePatientSessionForm()
