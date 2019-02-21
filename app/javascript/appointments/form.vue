@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-modal scrollable
+             size="xl"
              id="appointmentForm"
              title="Book an Appointment"
              ok-title="Save"
@@ -11,7 +12,7 @@
         <p>There was a problem booking your appointment. Please try again. If problem persists, please contact Technical Support.</p>
       </b-alert>
       <b-form>
-        <b-input-group class="w-75">
+        <b-input-group class="w-50">
           <b-form-input type="date" v-model.trim="searchDate" @change="searchForAvailablePatientSessions()"/>
           <b-input-group-append>
             <b-button @click="searchForAvailablePatientSessions()" size="sm" text="Search" variant="success">Search for Sessions</b-button>
@@ -22,7 +23,7 @@
         <p>Unfortunately there are no available sessions based on your selected date. Please try again</p>
       </b-alert>
       <div horizontal="md" class="mt-4">
-        <AvailablePatientSession :session="session" v-for="session in availablePatientSessions" :key="session.id"></AvailablePatientSession>
+        <AvailablePatientSession class="available-patient-session" :session="session" v-for="session in availablePatientSessions" :key="session.id"></AvailablePatientSession>
       </div>
     </b-modal>
   </div>
