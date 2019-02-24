@@ -1,6 +1,5 @@
-class PatientSessionCreator
+class PatientSessionCreatorService
   def self.call(options)
-
   end
 
 private
