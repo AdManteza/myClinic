@@ -52,7 +52,7 @@ private
   end
 
   def users
-    @users ||= current_site.users
+    @users ||= current_site.users.includes(:appointments)
   end
 
   def user_params

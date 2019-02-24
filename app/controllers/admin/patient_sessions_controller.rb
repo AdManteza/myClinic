@@ -28,7 +28,7 @@ private
 
   def patient_sessions
     @patient_sessions ||= begin
-      scope = current_site.patient_sessions
+      scope = current_site.patient_sessions.includes(:appointment, :patient)
       scope = scope.available.not_in_the_past if available_only?
       scope = scope.for_date(search_date) if search_date
 
