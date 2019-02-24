@@ -48,52 +48,44 @@
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group horizontal
-                      label="Duration"
+        <b-form-group :label="label_duration"
                       label-for="patient_session-duration">
           <b-form-input id="patient_session-duration"
                         type="range"
-                        min="0"
+                        min="5"
                         step="5"
                         max="60"
-                        placeholder="Duration of each Patient Session(in minutes)"
                         :state="!$v.patient_session.duration.$invalid"
                         v-model.trim="patient_session.duration"
                         aria-describedby="duration_feedback"/>
-          <span>{{ patient_session.duration }} mins per session</span>
           <b-form-invalid-feedback id="duration_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group horizontal
-                      label="Interval"
+        <b-form-group :label="label_interval"
                       label-for="patient_session-interval">
           <b-form-input id="patient_session-interval"
                         type="range"
                         min="0"
                         step="5"
                         max="60"
-                        placeholder="Interval between Patient Sessions(in minutes)"
                         :state="!$v.patient_session.interval.$invalid"
                         v-model.trim="patient_session.interval"
                         aria-describedby="interval_feedback"/>
-          <span>{{ patient_session.interval }} mins in-between sessions</span>
           <b-form-invalid-feedback id="interval_feedback">
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group horizontal
-                      label="Per day"
+        <b-form-group :label="label_sessions_per_day"
                       label-for="patient_sessions-per-day">
           <b-form-input id="patient_sessions-per-day"
                         type="range"
-                        min="0"
+                        min="1"
                         max="12"
-                        placeholder="Number of Patient Sessions per day"
+                        size="sm"
                         :state="!$v.patient_session.per_day.$invalid"
                         v-model.trim="patient_session.per_day"
                         aria-describedby="per_day_feedback"/>
-          <span>{{ patient_session.per_day }} sessions per day</span>
           <b-form-invalid-feedback id="per_day_feedback">
             This is a required field
           </b-form-invalid-feedback>
@@ -110,11 +102,22 @@
     data () {
       return {
         patient_session: {
-          duration: '0',
-          interval: '5',
-          per_day: '0'
+          duration: '5',
+          interval: '0',
+          per_day: '1'
         },
         saveError: false
+      }
+    },
+    computed: {
+      label_duration () {
+        return `Duration of each Patient Session: ${this.patient_session.duration} minutes`
+      },
+      label_interval () {
+        return `Interval between Patient Sessions: ${this.patient_session.interval} minutes`
+      },
+      label_sessions_per_day () {
+        return `${this.patient_session.per_day} sessions per day`
       }
     },
     mixins: [ validationMixin ],
