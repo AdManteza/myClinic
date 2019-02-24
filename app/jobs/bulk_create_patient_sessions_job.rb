@@ -1,5 +1,5 @@
 class BulkCreatePatientSessionsJob < ApplicationJob
   def perform(options)
-    PatientSessionCreator.generate(options)
+    PatientSessionCreator.call(options)
   end
 end
