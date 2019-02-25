@@ -148,7 +148,11 @@
         this.$root.$emit('bv::show::modal', 'patientSessionForm')
       },
       closePatientSessionForm () {
-        this.patient_session = {}
+        this.patient_session = {
+          duration: '5',
+          interval: '0',
+          per_day: '1'
+        }
         this.$root.$emit('bv::hide::modal', 'patientSessionForm')
       },
       handleOk (event) {
