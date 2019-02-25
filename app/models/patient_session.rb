@@ -38,7 +38,7 @@ class PatientSession < ApplicationRecord
   end
 
   def duration_in_minutes
-    ((start_datetime - end_datetime) / 1.minutes).round
+    ((end_datetime - start_datetime) / 1.minutes).round
   end
 
   def same_day_for_start_and_end_datetime

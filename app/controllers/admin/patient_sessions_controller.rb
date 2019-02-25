@@ -9,19 +9,19 @@ class Admin::PatientSessionsController < Admin::AdminController
   end
 
   def create
-    @patient_session = current_site.patient_sessions.build
+    options = patient_session_params.merge(site_id: current_site.id)
 
     respond_to do |format|
       format.json do
         if bulk_create?
-          BulkCreatePatientSessionsJob.perform_async(patient_session_params)
+          BulkCreatePatientSessionsJob.perform_async(options)
         else
-          @patient_session.save!
+          PatientSessionCreatorService.new(options).call
         end
       end
     end
-  rescue
-    render json: @patient_session.errors, status: :unprocessable_entity
+  rescue PatientSessionCreatorService::UnknownError, ActiveRecord::RecordInvalid => boom
+    render json: boom.message, status: :unprocessable_entity
   end
 
 private
