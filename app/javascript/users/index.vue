@@ -25,13 +25,13 @@
              :current-page="currentPage"
              :per-page="perPage">
       <template slot="actions" slot-scope="row" >
-        <b-button size="sm" variant="secondary" @click.stop="editUser(row.item)" class="mr-1">
+        <b-button size="sm" variant="link" @click.stop="editUser(row.item)">
           Edit
         </b-button>
-        <b-button size="sm" variant="success" @click.stop="bookAppointmentForUser(row.item)" class="mr-1">
-          Book an Appointment
+        <b-button size="sm" variant="link" @click.stop="bookAppointmentForUser(row.item)">
+          Book
         </b-button>
-        <b-button size="sm" variant="danger" @click.stop="removeUser(row.item, row.index)">
+        <b-button size="sm" variant="link" @click.stop="removeUser(row.item, row.index)">
           Remove?
         </b-button>
       </template>
