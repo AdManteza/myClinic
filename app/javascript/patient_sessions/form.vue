@@ -117,7 +117,7 @@
         return `Interval between Patient Sessions: ${this.patient_session.interval} minutes`
       },
       label_sessions_per_day () {
-        return `${this.patient_session.per_day} sessions per day`
+        return `${this.patient_session.per_day} Patient Sessions per day`
       }
     },
     mixins: [ validationMixin ],

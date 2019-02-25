@@ -25,6 +25,22 @@ class PatientSession < ApplicationRecord
     patient.present?
   end
 
+  def start_time
+    start_datetime.in_time_zone(time_zone)
+  end
+
+  def end_time
+    end_datetime.in_time_zone(time_zone)
+  end
+
+  def date
+    start_datetime.in_time_zone(time_zone).to_date
+  end
+
+  def duration_in_minutes
+    ((start_datetime - end_datetime) / 1.minutes).round
+  end
+
   def same_day_for_start_and_end_datetime
     errors.add(:end_datetime, 'Start Time and End Time should be on the same day') if start_datetime.to_date != end_datetime.to_date
   end
