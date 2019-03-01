@@ -38,7 +38,7 @@ gem 'devise'
 gem 'font-awesome-rails'
 
 gem 'haml'
-gem 'bootstrap', '~> 4.2.1'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 
 gem 'active_model_serializers'
