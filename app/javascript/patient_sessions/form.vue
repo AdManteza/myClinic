@@ -11,8 +11,7 @@
         <p>There was a problem bulk creating the patient sessions. Please try again. If problem persists, please contact Technical Support.</p>
       </b-alert>
       <b-form>
-        <b-form-group horizontal
-                      label="From:"
+        <b-form-group label="From:"
                       label-for="patient_session-start-date">
           <b-form-input id="patient_session-start-date"
                         type="date"
@@ -23,8 +22,7 @@
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group horizontal
-                      label="To:"
+        <b-form-group label="To:"
                       label-for="patient_session-end-date">
           <b-form-input id="patient_session-end-date"
                         type="date"
@@ -35,8 +33,7 @@
             This is a required field
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group horizontal
-                      label="Starting time"
+        <b-form-group label="Starting time"
                       label-for="patient_session-starting-time"
                       description="The first Patient Session will start at this time">
           <b-form-input id="patient_session-starting-time"
