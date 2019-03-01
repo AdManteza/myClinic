@@ -9,18 +9,16 @@ class PatientSessionCreatorService
   end
 
   def call
-    Time.use_zone(site.time_zone) do
-      ActiveRecord::Base.transaction do
-        (start_date..end_date).each do |date|
-          start_datetime = set_initial_start_datetime(date)
+    ActiveRecord::Base.transaction do
+      (start_date..end_date).each do |date|
+        start_datetime = set_initial_start_datetime(date)
 
-          per_day.times do |idx|
-            end_datetime = start_datetime + duration
+        per_day.times do |idx|
+          end_datetime = start_datetime + duration
 
-            PatientSession.create!(site_id: site.id, start_datetime: start_datetime, end_datetime: end_datetime)
+          PatientSession.create!(site_id: site.id, start_datetime: start_datetime, end_datetime: end_datetime)
 
-            start_datetime = end_datetime + interval # next start_datetime
-          end
+          start_datetime = end_datetime + interval # next start_datetime
         end
       end
     end
@@ -65,6 +63,6 @@ private
       date.day,
       starting_time.hour,
       starting_time.min
-    )
+    ).in_time_zone(site.time_zone)
   end
 end

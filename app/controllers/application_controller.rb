@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   before_action :current_site
-  around_action :set_time_zone, if: :current_site
   helper_method :admin_user?
 
   class NoSiteFound < StandardError
@@ -29,9 +28,5 @@ private
   rescue NoSiteFound
     # To Do. A better error handling here..
     nil
-  end
-
-  def set_time_zone(&block)
-    Time.use_zone(current_site.time_zone, &block)
   end
 end

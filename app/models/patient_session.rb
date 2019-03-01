@@ -26,15 +26,15 @@ class PatientSession < ApplicationRecord
   end
 
   def start_time
-    start_datetime.in_time_zone(time_zone)
+    start_datetime.strftime("%I:%M %p")
   end
 
   def end_time
-    end_datetime.in_time_zone(time_zone)
+    end_datetime.strftime("%I:%M %p")
   end
 
   def date
-    start_datetime.in_time_zone(time_zone).to_date
+    start_datetime.to_date
   end
 
   def duration_in_minutes

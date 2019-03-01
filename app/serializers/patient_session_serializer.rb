@@ -6,11 +6,11 @@ class PatientSessionSerializer < ActiveModel::Serializer
   end
 
   def start_time
-    patient_session.start_time.strftime("%I:%M %p")
+    patient_session.start_time
   end
 
   def end_time
-    patient_session.end_time.strftime("%I:%M %p")
+    patient_session.end_time
   end
 
 private
