@@ -19,7 +19,7 @@
                         v-model.trim="patient_session.start_date"
                         aria-describedby="start_date_feedback"/>
           <b-form-invalid-feedback id="start_date_feedback">
-            This is a required field
+            Invalid Date
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="To:"
@@ -27,10 +27,9 @@
           <b-form-input id="patient_session-end-date"
                         type="date"
                         :state="!$v.patient_session.end_date.$invalid"
-                        v-model.trim="patient_session.end_date"
-                        aria-describedby="end_date_feedback"/>
-          <b-form-invalid-feedback id="end_date_feedback">
-            This is a required field
+                        v-model.trim="patient_session.end_date"/>
+          <b-form-invalid-feedback v-if="!patient_session.valid_end_date">
+            Invalid Date
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Starting time"
@@ -42,7 +41,7 @@
                         v-model.trim="patient_session.starting_time"
                         aria-describedby="starting_time_feedback"/>
           <b-form-invalid-feedback id="starting_time_feedback">
-            This is a required field
+            Invalid Starting Time
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group :label="label_duration"
@@ -95,6 +94,8 @@
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
 
+  const valid_end_date = (value, vm) => value >= vm.start_date
+
   export default {
     data () {
       return {
@@ -124,7 +125,8 @@
           required
         },
         end_date: {
-          required
+          required,
+          valid_end_date
         },
         starting_time: {
           required
