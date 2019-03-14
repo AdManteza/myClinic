@@ -16,6 +16,7 @@
           <Datepicker v-model.trim="searchDate"
                       bootstrap-styling
                       inline
+                      :disabledDates="upToYesterdaysDate()"
                       @selected="clearPatientSessions()"
                       @changedMonth="clearPatientSessions()"
                       @changedYear="clearPatientSessions()"
@@ -96,6 +97,12 @@
       this.$eventHub.$off('book-appointment-for-user')
     },
     methods: {
+      upToYesterdaysDate () {
+        let date = new Date
+        date.setDate(date.getDate() - 1)
+
+        return { to: date }
+      },
       clearPatientSessions () {
         this.availablePatientSessions = []
         this.selected_session = {}
@@ -103,7 +110,7 @@
       },
       closeAppointmentForm () {
         this.clearPatientSessions()
-        this.searchDate = ''
+        this.searchDate = new Date
         this.user = {}
         this.searchError = false
         this.saveError = false
