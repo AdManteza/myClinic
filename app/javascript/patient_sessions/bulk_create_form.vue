@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-btn @click="showPatientSessionForm()" variant="primary">Bulk Create Patient Sessions</b-btn>
+    <b-btn @click="showBulkCreatePatientSessionForm()" variant="primary">Bulk Create Patient Sessions</b-btn>
     <b-modal id="patientSessionForm"
              title="Bulk Create Patient Sessions"
              ok-title="Bulk Create"
              v-bind:ok-disabled="$v.patient_session.$invalid"
              size="lg"
-             @cancel="closePatientSessionForm"
+             @cancel="closeBulkCreatePatientSessionForm"
              @ok="handleOk">
       <b-alert show dismissible variant="danger" v-if="saveError">
         <p>There was a problem bulk creating the patient sessions. Please try again. If problem persists, please contact Technical Support.</p>
@@ -132,10 +132,10 @@
       }
     },
     methods: {
-      showPatientSessionForm () {
+      showBulkCreatePatientSessionForm () {
         this.$root.$emit('bv::show::modal', 'patientSessionForm')
       },
-      closePatientSessionForm () {
+      closeBulkCreatePatientSessionForm () {
         this.patient_session = {
           duration: '5',
           interval: '0',
@@ -159,7 +159,7 @@
         let promise = this.$http.post('/admin/patient_sessions.json', { patient_session: patientSessionParams })
 
         return promise.then((data) => {
-          this.closePatientSessionForm()
+          this.closeBulkCreatePatientSessionForm()
           this.saveError = false
         }).catch(error => {
           this.saveError = true

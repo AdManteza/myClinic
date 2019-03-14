@@ -31,12 +31,7 @@ import vuecal from 'vue-cal'
 import loginform from '../common/login_form.vue'
 import adminnavbar from '../application/admin_navbar.vue'
 import userindex from '../users/index.vue'
-
-// ..PatientSessions components
-import PatientSessionForm from '../patient_sessions/form.vue'
-// TODO: import this inside patient_sessions/index.vue when it
-// becomes available
-Vue.component('patientsessionform', PatientSessionForm)
+import patientsessionindex from '../patient_sessions/index.vue'
 
 // Global events
 Vue.prototype.$eventHub = new Vue()
@@ -48,6 +43,7 @@ document.addEventListener('turbolinks:load', () => {
     el: '[data-behavior="vue"]',
     components: {
       userindex,
+      patientsessionindex,
       adminnavbar,
       loginform,
       vuecal
