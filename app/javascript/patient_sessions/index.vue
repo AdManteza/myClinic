@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-alert show dismissible variant="danger" v-if="deleteError">
+    <!-- <b-alert show dismissible variant="danger" v-if="deleteError">
       <p>There was a problem deleting the User. Please try again. If problem persists, please contact Technical Support.</p>
-    </b-alert>
+    </b-alert> -->
     <b-alert :show="showSucessMessage"
               dismissible
               fade
@@ -10,7 +10,7 @@
               @dismissed="showSucessMessage=0">
       <p>{{successMessage}}</p>
     </b-alert>
-    <b-table id="users-table"
+    <b-table id="patient-sessions-table"
              show-empty
              striped
              responsive
@@ -21,10 +21,10 @@
              :sort-desc.sync="sortDesc"
              :busy.sync="isBusy"
              :fields="fields"
-             :items="users"
+             :items="patientSessions"
              :current-page="currentPage"
              :per-page="perPage">
-      <template slot="actions" slot-scope="row" >
+      <!-- <template slot="actions" slot-scope="row" >
         <b-button size="sm" variant="link" @click.stop="editUser(row.item)">
           Edit
         </b-button>
@@ -34,37 +34,33 @@
         <b-button size="sm" variant="link" @click.stop="removeUser(row.item, row.index)">
           Remove?
         </b-button>
-      </template>
+      </template> -->
     </b-table>
     <b-row>
       <b-col md="6">
         <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
       </b-col>
     </b-row>
-    <b-btn v-b-modal.userForm variant="primary">New Patient</b-btn>
-
-    <AppointmentForm></AppointmentForm>
-    <UserForm></UserForm>
+    <BulkCreatePatientSessionForm></BulkCreatePatientSessionForm>
   </div>
 </template>
 
 <script>
-  import UserForm from '../users/form.vue'
-  import AppointmentForm from '../appointments/form.vue'
-  
+  import BulkCreatePatientSessionForm from '../patient_sessions/bulk_create_form.vue'
+
   export default {
     data () {
       return {
-        users: [],
+        patientSessions: [],
         sortBy: 'id',
         sortDesc: true,
         fields: [
           { key: 'id', label: 'ID', sortable: true },
-          { key: 'username', label: 'Username', sortable: true },
-          { key: 'firstname', label: 'First Name', sortable: true },
-          { key: 'lastname', label: 'Last Name', sortable: true },
-          { key: 'contact_number', label: 'Contact Number', sortable: true },
-          { key: 'email_address', label: 'Email', sortable: true },
+          { key: 'date', label: 'Date', sortable: true },
+          { key: 'start_time', label: 'Start Time', sortable: true },
+          { key: 'end_time', label: 'End Time', sortable: true },
+          { key: 'patient_name', label: 'Patient Name', sortable: true },
+          { key: 'appointment_id', label: 'Appointment ID', sortable: true },
           { key: 'actions', label: 'Actions', sortable: false }
         ],
         currentPage: 1,
@@ -78,10 +74,10 @@
       }
     },
     components: {
-      UserForm, AppointmentForm
+      BulkCreatePatientSessionForm
     },
     mounted () {
-      this.getUsers()
+      this.getPatientSessions()
     },
     created () {
       this.$eventHub.$on('new-user-added', user => {
@@ -112,13 +108,13 @@
         this.$eventHub.$emit('book-appointment-for-user', user)
         this.$root.$emit('bv::show::modal', 'appointmentForm')
       },
-      getUsers () {
-        let promise = this.$http.get('/admin/users.json')
+      getPatientSessions () {
+        let promise = this.$http.get('/admin/patient_sessions.json')
 
         return promise.then((data) => {
           const items    = data.body
           this.totalRows = items.length
-          this.users     = items
+          this.patientSessions = items
           this.isBusy    = false
         }).catch(error => {
           this.isBusy = false

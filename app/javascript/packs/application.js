@@ -25,29 +25,13 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 // Calendar
-import VueCal from 'vue-cal'
-Vue.component('vuecal', VueCal)
+import vuecal from 'vue-cal'
 
 // My Components
-// ..Common components
-import LoginForm from '../common/login_form.vue'
-Vue.component('loginform', LoginForm)
-
-// ..Application components
-import AdminNavBar from '../application/admin_navbar.vue'
-Vue.component('adminnavbar', AdminNavBar)
-
-// ..Appointments components
-import AppointmentForm from '../appointments/form.vue'
-Vue.component('appointmentform', AppointmentForm)
-
-// ..Users components
-import UserIndex from '../users/index.vue'
-Vue.component('userindex', UserIndex)
-
-// ..PatientSessions components
-import PatientSessionForm from '../patient_sessions/form.vue'
-Vue.component('patientsessionform', PatientSessionForm)
+import loginform from '../common/login_form.vue'
+import adminnavbar from '../application/admin_navbar.vue'
+import userindex from '../users/index.vue'
+import patientsessionindex from '../patient_sessions/index.vue'
 
 // Global events
 Vue.prototype.$eventHub = new Vue()
@@ -56,6 +40,13 @@ document.addEventListener('turbolinks:load', () => {
   Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
   const app = new Vue({
-    el: '[data-behavior="vue"]'
+    el: '[data-behavior="vue"]',
+    components: {
+      userindex,
+      patientsessionindex,
+      adminnavbar,
+      loginform,
+      vuecal
+    }
   })
 })

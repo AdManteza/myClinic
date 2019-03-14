@@ -9,32 +9,28 @@ class Admin::PatientSessionsController < Admin::AdminController
   end
 
   def create
-    @patient_session = current_site.patient_session.build(
-      date:       patient_session_params[:date],
-      start_time: patient_session_params[:start_time],
-      start_time: patient_session_params[:end_time]
-    )
+    options = patient_session_params.merge(site_id: current_site.id)
 
     respond_to do |format|
       format.json do
         if bulk_create?
-          # BulkPatientSessionCreator.generate(patient_session_params)
+          BulkCreatePatientSessionsJob.perform_async(options)
         else
-          @patient_session.save!
+          PatientSessionCreatorService.new(options).call
         end
       end
     end
-  rescue ActiveRecord::Invalid
-    render json: @patient_session.errors, status: :unprocessable_entity
+  rescue PatientSessionCreatorService::UnknownError, ActiveRecord::RecordInvalid => boom
+    render json: boom.message, status: :unprocessable_entity
   end
 
 private
 
   def patient_sessions
     @patient_sessions ||= begin
-      scope = current_site.patient_sessions
+      scope = current_site.patient_sessions.includes(:appointment, :patient)
       scope = scope.available.not_in_the_past if available_only?
-      scope = scope.where(date: search_date) if search_date
+      scope = scope.for_date(search_date) if search_date
 
       scope
     end
@@ -54,15 +50,13 @@ private
 
   def patient_session_params
     params.fetch(:patient_session).permit(
-      :date,
-      :start_time,
-      :end_time,
       :start_date,
       :end_date,
       :starting_time,
       :duration,
       :interval,
-      :per_day
+      :per_day,
+      :skip_weekends
     )
   end
 end
