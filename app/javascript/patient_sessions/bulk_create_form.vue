@@ -82,6 +82,9 @@
                             v-model.trim="patient_session.per_day"
                             aria-describedby="per_day_feedback"/>
             </b-form-group>
+            <b-form-checkbox v-model.trim="patient_session.skip_weekends">
+              Skip Weekends?
+            </b-form-checkbox>
           </b-col>
         </b-row>
       </b-form>
@@ -100,7 +103,8 @@
         patient_session: {
           duration: '5',
           interval: '0',
-          per_day: '1'
+          per_day: '1',
+          skip_weekends: true
         },
         saveError: false
       }
@@ -153,7 +157,8 @@
           starting_time: this.patient_session.starting_time,
           duration: this.patient_session.duration,
           interval: this.patient_session.interval,
-          per_day: this.patient_session.per_day
+          per_day: this.patient_session.per_day,
+          skip_weekends: this.patient_session.skip_weekends
         }
 
         let promise = this.$http.post('/admin/patient_sessions.json', { patient_session: patientSessionParams })

@@ -55,7 +55,8 @@ private
       :starting_time,
       :duration,
       :interval,
-      :per_day
+      :per_day,
+      :skip_weekends
     )
   end
 end

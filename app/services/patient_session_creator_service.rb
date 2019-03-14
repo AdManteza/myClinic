@@ -13,6 +13,8 @@ class PatientSessionCreatorService
       (start_date..end_date).each do |date|
         start_datetime = set_initial_start_datetime(date)
 
+        next if skip_if_its_weekend?(date)
+
         per_day.times do |idx|
           end_datetime = start_datetime + duration
 
@@ -54,6 +56,15 @@ private
 
   def per_day
     options.fetch(:per_day).to_i
+  end
+
+  def skip_if_its_weekend?(date)
+    (date.saturday? || date.sunday?) &&
+    skip_weekends?
+  end
+
+  def skip_weekends?
+    options.fetch(:skip_weekends)
   end
 
   def set_initial_start_datetime(date)
