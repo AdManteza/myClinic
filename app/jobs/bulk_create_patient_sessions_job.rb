@@ -1,5 +1,7 @@
 class BulkCreatePatientSessionsJob < ApplicationJob
   def perform(options)
-    PatientSessionCreatorService.new(options).call
+    ActiveRecord::Base.connection_pool.with_connection do
+      PatientSessionCreatorService.new(options).call
+    end
   end
 end
