@@ -61,7 +61,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'awesome_print'
   gem 'rspec-rails'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 4.8.2'
 end
 
 group :development do
