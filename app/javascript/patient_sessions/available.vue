@@ -1,24 +1,11 @@
 <template>
-  <div class="rounded shadow">
-    <table class="w-100 mt-3 table table-borderless">
-      <thead>
-        <tr>
-          <th scope="col">Start Time</th>
-          <th scope="col">End Time</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody >
-        <tr scope="row">
-          <td>{{session.start_time}}</td>
-          <td>{{session.end_time}}</td>
-          <td>
-            <b-form-radio :value="session" v-model="selected" name="option" @change="setSelected()"></b-form-radio>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <b-form-radio :value="session"
+                v-model="selected"
+                name="option"
+                @change="setSelected()"
+                class="rounded shadow">
+    {{session.start_time}} to {{session.end_time}}
+  </b-form-radio>
 </template>
 <script>
   export default {

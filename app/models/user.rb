@@ -2,8 +2,8 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :site
-  has_many :patient_sessions
   has_many :appointments
+  has_many :patient_sessions, through: :appointments
 
   default_scope { order(created_at: :desc) }
 

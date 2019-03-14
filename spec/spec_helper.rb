@@ -93,4 +93,25 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  # Database Cleaner configs
+  # Turn off transactional fixtures (delete, comment or set it to `false`)
+  # config.use_transactional_fixtures = true
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  # Clean up all jobs specs with truncation
+  config.before(:each, job: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
