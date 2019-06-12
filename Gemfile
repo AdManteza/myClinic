@@ -62,6 +62,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'rspec-rails'
   gem 'factory_bot_rails', '~> 4.8.2'
+  gem 'rb-readline'
 end
 
 group :development do
