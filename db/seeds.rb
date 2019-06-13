@@ -20,11 +20,13 @@ admin_user = AdminUser.find_or_create_by(username: 'Admin') do |admin|
 end
 
 # Create a Patient
-User.find_or_create_by(username: 'User1') do |user|
-	user.password  = 'password'
-	user.firstname = 'user_fname'
-	user.lastname  = 'user_lname'
-	user.site_id   = current_site.id
+100.times do |i|
+	User.find_or_create_by(username: "User#{i}") do |user|
+		user.password  = 'password'
+		user.firstname = "user#{i}_fname"
+		user.lastname  = "user#{i}_lname"
+		user.site_id   = current_site.id
+	end
 end
 
 puts "AdminUserUsername: 'Admin'"
