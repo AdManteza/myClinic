@@ -5,7 +5,7 @@ A Patients Management App for Clinics
 * Ruby version 2.5.1
 * Rails 5.2.0
 * Vue 2.5.16
-
+DUH
 * System dependencies
 
 * Configuration
