@@ -11,7 +11,7 @@ A Patients Management App for Clinics
 * Configuration
 
 * Database creation
-
+sads
 * Database initialization
 
 * How to run the test suite
