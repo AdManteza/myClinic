@@ -8,7 +8,7 @@ A Patients Management App for Clinics
 
 * System dependencies
 
-* Configuration
+* Configuration.
 
 * Database creation
 
