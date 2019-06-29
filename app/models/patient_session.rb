@@ -7,15 +7,15 @@ class PatientSession < ApplicationRecord
 
   validate :same_day_for_start_and_end_datetime, :start_time_before_end_time
 
-  scope :not_in_the_past, -> do
+  scope :not_in_the_past, lambda do
     where('start_datetime >= ?', Time.zone.now.beginning_of_day)
   end
 
-  scope :available, -> do
-    left_joins(:appointment).where(appointments: { patient_session_id: nil } )
+  scope :available, lambda do
+    left_joins(:appointment).where(appointments: { patient_session_id: nil })
   end
 
-  scope :for_date, -> (date) do
+  scope :for_date, lambda(date) do
     return if date.nil?
 
     where('start_datetime BETWEEN ? AND ?', date.to_date.beginning_of_day, date.to_date.end_of_day)
