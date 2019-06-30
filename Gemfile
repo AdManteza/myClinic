@@ -42,6 +42,7 @@ gem 'haml'
 gem 'jquery-rails'
 
 gem 'active_model_serializers'
+gem 'kaminari'
 
 # Background Jobs
 gem 'sucker_punch', '~> 2.0'
