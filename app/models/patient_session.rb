@@ -6,6 +6,8 @@ class PatientSession < ApplicationRecord
   has_one :patient, through: :appointment, source: :user
 
   delegate :time_zone, to: :site
+  delegate :full_name, to: :patient, prefix: true, allow_nil: true
+  delegate :id, to: :appointment, prefix: true, allow_nil: true
 
   validate :same_day_for_start_and_end_datetime, :start_time_before_end_time
 
@@ -40,6 +42,8 @@ class PatientSession < ApplicationRecord
   def duration_in_minutes
     ((end_datetime - start_datetime) / 1.minutes).round
   end
+
+  private
 
   def same_day_for_start_and_end_datetime
     errors.add(:end_datetime, 'Start Time and End Time should be on the same day') if start_datetime.to_date != end_datetime.to_date
