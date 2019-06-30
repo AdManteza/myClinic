@@ -5,17 +5,16 @@ class PatientSessionCreatorService
 
   attr_reader :options
 
-  class UnknownError < StandardError
-  end
+  class UnknownError < StandardError; end
 
   def call
     ActiveRecord::Base.transaction do
       (start_date..end_date).each do |date|
-        start_datetime = set_initial_start_datetime(date)
+        start_datetime = initial_start_datetime(date)
 
         next if skip_if_its_weekend?(date)
 
-        per_day.times do |idx|
+        per_day.times do |_idx|
           end_datetime = start_datetime + duration
 
           PatientSession.create!(site_id: site.id, start_datetime: start_datetime, end_datetime: end_datetime)
@@ -28,7 +27,7 @@ class PatientSessionCreatorService
     raise UnknownError
   end
 
-private
+  private
 
   def site
     Site.find(options.fetch(:site_id))
@@ -59,15 +58,14 @@ private
   end
 
   def skip_if_its_weekend?(date)
-    (date.saturday? || date.sunday?) &&
-    skip_weekends?
+    (date.saturday? || date.sunday?) && skip_weekends?
   end
 
   def skip_weekends?
     options.fetch(:skip_weekends)
   end
 
-  def set_initial_start_datetime(date)
+  def initial_start_datetime(date)
     DateTime.new(
       date.year,
       date.month,
