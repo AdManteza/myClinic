@@ -1,2 +1,8 @@
 %h5.ml-2 Patient Sessions List
-%PatientSessionIndex
+-# %PatientSessionIndex
+- @patient_sessions.each do |patient_session|
+  %tr
+    %td= patient_session.id
+    %td= patient_session.date
+
+= paginate @patient_sessions

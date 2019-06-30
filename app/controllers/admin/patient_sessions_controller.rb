@@ -3,7 +3,7 @@ class Admin::PatientSessionsController < Admin::AdminController
 
   def index
     respond_to do |format|
-      format.html {}
+      format.html { @patient_sessions }
       format.json { render json: @patient_sessions }
     end
   end
@@ -30,7 +30,7 @@ class Admin::PatientSessionsController < Admin::AdminController
       scope = scope.available.not_in_the_past if available_only?
       scope = scope.for_date(search_date) if search_date
 
-      scope
+      scope.page(params[:page])
     end
   end
 

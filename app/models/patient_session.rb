@@ -1,4 +1,6 @@
 class PatientSession < ApplicationRecord
+  include Pagination
+
   belongs_to :site
   has_one :appointment
   has_one :patient, through: :appointment, source: :user
