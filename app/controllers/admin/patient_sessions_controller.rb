@@ -1,13 +1,6 @@
 class Admin::PatientSessionsController < Admin::AdminController
   before_action :patient_sessions, only: [:index]
 
-  def index
-    respond_to do |format|
-      format.html { @patient_sessions }
-      format.json { render json: @patient_sessions }
-    end
-  end
-
   def create
     respond_to do |format|
       format.json do

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Pagination
+
   has_secure_password
 
   belongs_to :site

@@ -6,7 +6,7 @@ class PatientSession < ApplicationRecord
   has_one :patient, through: :appointment, source: :user
 
   delegate :time_zone, to: :site
-  delegate :full_name, to: :patient, prefix: true, allow_nil: true
+  delegate :id, :full_name, to: :patient, prefix: true, allow_nil: true
   delegate :id, to: :appointment, prefix: true, allow_nil: true
 
   validate :same_day_for_start_and_end_datetime, :start_time_before_end_time

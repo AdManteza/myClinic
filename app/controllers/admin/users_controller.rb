@@ -46,7 +46,7 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def users
-    @users ||= current_site.users.includes(:appointments)
+    @users ||= current_site.users.page(params[:page])
   end
 
   def setup_user
