@@ -1,9 +1,9 @@
 / Navigation
-%nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
+%nav.navbar.navbar-expand-md.navbar-dark.bg-dark
   .navbar-collapse.collapse.w-100.order-1.order-md-0.dual-collapse2
     - if admin_user?
       %AdminNavbar(current-page="#{request.path}")
-    
+
     - elsif @current_user.present?
       %ul.navbar-nav.mr-auto
         %li.nav-item.active
