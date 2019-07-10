@@ -1,5 +1,5 @@
 <template>
-  <ul class="navbar-nav mr-auto">
+  <ul class="navbar-nav ml-auto">
     <li class="nav-item">
       <a href="/admin_dashboard" v-bind:class="{ active: currentPage === '/admin_dashboard' }" class="nav-link">Dashboard</a>
     </li>

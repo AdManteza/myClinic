@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <li class="nav-item">
     <b-btn @click="showModal" size="sm" variant="outline-warning">{{ currentUser ? "Logout " + currentUser : 'Admin Login' }}</b-btn>
 
     <!-- Modal Component -->
@@ -38,7 +38,7 @@
         </b-form-group>
       </b-form>
     </b-modal>
-  </div>
+  </li>
 </template>
 <script>
   import { validationMixin } from 'vuelidate'
