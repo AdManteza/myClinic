@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "3.5",
     "bootstrap-vue": "^2.0.0-rc.11",
+    "cssnext": "^1.8.4",
     "js-yaml": "^3.13.1",
     "mem": "^4.0.0",
     "vue": "^2.5.16",
