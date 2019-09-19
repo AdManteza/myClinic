@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
   # each client will have a different homepage
   root 'client/sites#show'
 
@@ -22,5 +24,4 @@ Rails.application.routes.draw do
   post 'admin_login', to: 'admin/sessions#create', as: 'admin_login'
 
   get 'user_signup', to: 'client/users#new', as: 'user_signup'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
