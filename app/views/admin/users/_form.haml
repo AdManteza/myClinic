@@ -1,0 +1,25 @@
+= form_for user, url: { action: 'update' }  do |form|
+  .form-group.row
+    = form.label :id, class: 'col-sm-2 col-form-label'
+    .col-sm-3
+      = form.text_field :id, class: 'form-control'
+  .form-group.row
+    = form.label :username, class: 'col-sm-2 col-form-label'
+    .col-sm-3
+      = form.text_field :username, class: 'form-control'
+  .form-group.row
+    = form.label :firstname, class: 'col-sm-2 col-form-label'
+    .col-sm-3
+      = form.text_field :firstname, class: 'form-control'
+  .form-group.row
+    = form.label :lastname, class: 'col-sm-2 col-form-label'
+    .col-sm-3
+      = form.text_field :lastname, class: 'form-control'
+  .form-group.row
+    = form.label :contact_number, class: 'col-sm-2 col-form-label'
+    .col-sm-3
+      = form.text_field :contact_number, class: 'form-control'
+  .form-group.row
+    = form.label :email_address, class: 'col-sm-2 col-form-label'
+    .col-sm-3
+      = form.text_field :email_address, class: 'form-control'

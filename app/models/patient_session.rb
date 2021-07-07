@@ -1,25 +1,27 @@
 class PatientSession < ApplicationRecord
+  include Pagination
+
   belongs_to :site
   has_one :appointment
   has_one :patient, through: :appointment, source: :user
 
   delegate :time_zone, to: :site
+  delegate :id, :full_name, to: :patient, prefix: true, allow_nil: true
+  delegate :id, to: :appointment, prefix: true, allow_nil: true
 
   validate :same_day_for_start_and_end_datetime, :start_time_before_end_time
 
-  scope :not_in_the_past, -> do
+  scope :not_in_the_past, lambda {
     where('start_datetime >= ?', Time.zone.now.beginning_of_day)
-  end
-
-  scope :available, -> do
-    left_joins(:appointment).where(appointments: { patient_session_id: nil } )
-  end
-
-  scope :for_date, -> (date) do
+  }
+  scope :available, lambda {
+    left_joins(:appointment).where(appointments: { patient_session_id: nil })
+  }
+  scope :for_date, lambda { |date|
     return if date.nil?
 
     where('start_datetime BETWEEN ? AND ?', date.to_date.beginning_of_day, date.to_date.end_of_day)
-  end
+  }
 
   def booked?
     patient.present?
@@ -40,6 +42,8 @@ class PatientSession < ApplicationRecord
   def duration_in_minutes
     ((end_datetime - start_datetime) / 1.minutes).round
   end
+
+  private
 
   def same_day_for_start_and_end_datetime
     errors.add(:end_datetime, 'Start Time and End Time should be on the same day') if start_datetime.to_date != end_datetime.to_date

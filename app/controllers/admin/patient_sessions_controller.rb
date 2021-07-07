@@ -1,30 +1,21 @@
 class Admin::PatientSessionsController < Admin::AdminController
   before_action :patient_sessions, only: [:index]
 
-  def index
-    respond_to do |format|
-      format.html do; end
-      format.json { render json: @patient_sessions }
-    end
-  end
-
   def create
-    options = patient_session_params.merge(site_id: current_site.id)
-
     respond_to do |format|
       format.json do
         if bulk_create?
-          BulkCreatePatientSessionsJob.perform_async(options)
+          BulkCreatePatientSessionsJob.perform_async(patient_session_attributes)
         else
-          PatientSessionCreatorService.new(options).call
+          PatientSessionCreatorService.new(patient_session_attributes).call
         end
       end
     end
-  rescue PatientSessionCreatorService::UnknownError, ActiveRecord::RecordInvalid => boom
-    render json: boom.message, status: :unprocessable_entity
+  rescue PatientSessionCreatorService::UnknownError, ActiveRecord::RecordInvalid => e
+    render json: e.message, status: :unprocessable_entity
   end
 
-private
+  private
 
   def patient_sessions
     @patient_sessions ||= begin
@@ -32,7 +23,7 @@ private
       scope = scope.available.not_in_the_past if available_only?
       scope = scope.for_date(search_date) if search_date
 
-      scope
+      scope.page(params[:page])
     end
   end
 
@@ -46,6 +37,10 @@ private
 
   def bulk_create?
     patient_session_params[:per_day].to_i > 1
+  end
+
+  def patient_session_attributes
+    patient_session_params.merge(site_id: current_site.id)
   end
 
   def patient_session_params

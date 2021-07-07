@@ -1,20 +1,23 @@
 / Navigation
-%nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
-  .navbar-collapse.collapse.w-100.order-1.order-md-0.dual-collapse2
+%nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+  = link_to  "#{@current_site ? @current_site.name : nil}", root_path, class: 'brand-text navbar-brand'
+
+  %button.navbar-toggler{"data-target" => "#navbar7", "data-toggle" => "collapse", :type => "button"}
+    %span.navbar-toggler-icon
+
+  #navbar7.navbar-collapse.collapse.justify-content-stretch
     - if admin_user?
       %AdminNavbar(current-page="#{request.path}")
-    
+
     - elsif @current_user.present?
-      %ul.navbar-nav.mr-auto
-        %li.nav-item.active
-          = link_to 'My Profile', client_user_path, class: 'nav-link'
+      %ul.navbar-nav.ml-auto
+        %li.nav-item
+          = link_to 'My Profile', client_user_path, class: 'active nav-link'
+
     - else
-      %ul.navbar-nav.mr-auto
+      %ul.navbar-nav.ml-auto
         %li.nav-item.active
           = link_to 'Sign Up', user_signup_path, class: 'nav-link'
-  .mx-auto.order-0
-    = link_to  "#{@current_site ? @current_site.name : nil}", root_path, class: 'brand-text navbar-brand mx-auto'
-  .navbar-collapse.collapse.w-100.order-3.dual-collapse2
+
     %ul.navbar-nav.ml-auto
-      %li.nav-item
-        %LoginForm(current-user="#{admin_user? ? @current_user.username : nil}")
+      %LoginForm(current-user="#{admin_user? ? @current_user.username : nil}")

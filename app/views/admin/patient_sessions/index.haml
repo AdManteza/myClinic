@@ -1,2 +1,13 @@
 %h5.ml-2 Patient Sessions List
-%PatientSessionIndex
+
+%table.table.table-bordered.table-hover
+	%thead.bg-light
+		%th(scope="col") ID
+		%th(scope="col") Date
+		%th(scope="col") Start Time
+		%th(scope="col") End Tine
+		%th(scope="col") Patient Name
+		%th(scope="col") Appointment ID
+	= render partial: 'patient_session', collection: @patient_sessions
+
+= paginate @patient_sessions

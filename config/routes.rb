@@ -9,14 +9,14 @@ Rails.application.routes.draw do
     resources :patient_sessions
     resources :users
 
-    resources :sessions, only: [:create, :destroy]
+    resources :sessions, only: %i[create destroy]
   end
 
   namespace :client do
-    resources :sites, only: [:show]
-    resources :users, only: [:new, :show]
+    resources :sites, only: %i[show]
+    resources :users, only: %i[new show]
 
-    resources :sessions, only: [:create, :destroy]
+    resources :sessions, only: %i[create destroy]
   end
 
   get 'admin_logout', to: 'admin/sessions#destroy', as: 'admin_logout'

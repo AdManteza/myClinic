@@ -5,7 +5,7 @@ class Admin::AdminController < ApplicationController
     render 'admin/dashboard'
   end
 
-private
+  private
 
   def ensure_admin_only
     return if current_user.is_a?(AdminUser)
@@ -14,12 +14,6 @@ private
   end
 
   def current_user
-    @current_user ||= begin
-      if session[:admin_user_id]
-        AdminUser.find(session[:admin_user_id])
-      else
-        nil
-      end
-    end
+    @current_user ||= AdminUser.find(session[:admin_user_id]) if session[:admin_user_id]
   end
 end

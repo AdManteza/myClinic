@@ -1,24 +1,20 @@
 class Admin::UsersController < Admin::AdminController
-  before_action :user, only: [:show, :edit, :update, :destroy]
-  before_action :users, only: [:index]
+  before_action :user, only: %i[show edit update destroy]
+  before_action :users, only: %i[index]
+  before_action :setup_user, only: %i[create]
 
   def index
     respond_to do |format|
-      format.html do; end
+      format.html { @users }
       format.json { render json: @users }
     end
   end
 
   def create
-    @user = current_site.users.build(user_params)
-    @user.password = PasswordStrategy.random if user_params[:password].blank?
-
     respond_to do |format|
       if @user.save
-        format.html do; end
         format.json { render json: @user }
       else
-        format.html do; end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -27,10 +23,8 @@ class Admin::UsersController < Admin::AdminController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html do; end
         format.json { render json: @user }
       else
-        format.html do; end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -40,19 +34,24 @@ class Admin::UsersController < Admin::AdminController
     @user.destroy
 
     respond_to do |format|
-      format.html do; end
+      format.html {}
       format.json { head :no_content }
     end
   end
 
-private
+  private
 
   def user
     @user ||= current_site.users.where(id: params[:id]).first
   end
 
   def users
-    @users ||= current_site.users.includes(:appointments)
+    @users ||= current_site.users.page(params[:page])
+  end
+
+  def setup_user
+    @user          = current_site.users.build(user_params)
+    @user.password = PasswordStrategy.random if user_params[:password].blank?
   end
 
   def user_params

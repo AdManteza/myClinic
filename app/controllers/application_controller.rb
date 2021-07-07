@@ -2,10 +2,9 @@ class ApplicationController < ActionController::Base
   before_action :current_site
   helper_method :admin_user?
 
-  class NoSiteFound < StandardError
-  end
+  class NoSiteFound < StandardError; end
 
-private
+  private
 
   def admin_user?
     return false unless @current_user
@@ -24,7 +23,6 @@ private
 
       site
     end
-
   rescue NoSiteFound
     # To Do. A better error handling here..
     nil
